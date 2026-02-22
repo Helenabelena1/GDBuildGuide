@@ -1,0 +1,3985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Turret Card Reference</title>
+
+<!-- PWA / Install -->
+<link rel="manifest" href="manifest.json">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Turrets">
+<meta name="theme-color" content="#0a0e1a">
+<meta name="msapplication-TileColor" content="#0a0e1a">
+
+<!-- Icons -->
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="64x64" href="favicon.png">
+
+<!-- Prevent tap highlight on iOS -->
+<style>* { -webkit-tap-highlight-color: transparent; }</style>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap');
+
+  :root {
+    --bg-primary: #0a0e1a;
+    --bg-secondary: #111827;
+    --bg-card: #1a2035;
+    --bg-card-hover: #1f2847;
+    --border-primary: #1e293b;
+    --border-glow: rgba(99,102,241,0.3);
+    --text-primary: #e2e8f0;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --accent-blue: #6366f1;
+    --accent-purple: #a855f7;
+    --accent-gold: #fbbf24;
+    --accent-cyan: #22d3ee;
+    --accent-red: #ef4444;
+    --accent-orange: #f97316;
+    --accent-green: #10b981;
+    --accent-pink: #ec4899;
+    --tier1-color: #6366f1;
+    --tier2-color: #a855f7;
+    --tier3-color: #fbbf24;
+    --chain-color: #22d3ee;
+  /* Spacing custom properties */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  /* PWA / iOS variables */
+  --tab-bar-height: 56px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --page-transition: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  --blur-bg: rgba(10, 14, 26, 0.82);
+}
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    overflow-x: hidden;
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: calc(var(--tab-bar-height) + var(--safe-bottom) + 4px);
+  }
+  html {
+    height: -webkit-fill-available;
+    overscroll-behavior: none;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background:
+      radial-gradient(ellipse at 20% 0%, rgba(99,102,241,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 100%, rgba(168,85,247,0.06) 0%, transparent 60%);
+    pointer-events: none; z-index: 0;
+  }
+
+  /* === HEADER === */
+  .header {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--blur-bg);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding: 0 1rem;
+    padding-top: var(--safe-top);
+  }
+  .header-inner {
+    max-width: 1400px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 52px;
+  }
+  .logo { display: flex; align-items: center; gap: 12px; }
+  .logo-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .logo-text {
+    font-size: 1.1rem; font-weight: 700;
+    background: linear-gradient(135deg, #e2e8f0, #94a3b8);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .search-wrap { position: relative; width: 320px; }
+  .search-wrap svg {
+    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+    color: var(--text-muted); width: 16px; height: 16px;
+  }
+  .search-input {
+    width: 100%; padding: 11px 14px 11px 40px;
+    background: var(--bg-secondary); border: 1px solid var(--border-primary);
+    border-radius: 10px; color: var(--text-primary); font-size: 0.875rem;
+    font-family: inherit; outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+    min-height: 44px;
+  }
+  .search-input:focus {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
+  }
+  .search-input::placeholder { color: var(--text-muted); }
+
+  /* === FILTER BAR === */
+  .filter-bar {
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-primary);
+    padding: 10px 2rem;
+    position: sticky;
+    top: 112px; /* header(64) + main-tabs(48) */
+    z-index: 80;
+  }
+  .filter-bar-inner {
+    max-width: 1400px; margin: 0 auto;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .filter-row {
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  }
+  .filter-label {
+    font-size: 0.65rem; font-weight: 700; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 0.06em;
+    min-width: 80px; flex-shrink: 0;
+  }
+  .filter-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 8px 14px; border-radius: 20px; font-size: 0.7rem; font-weight: 600;
+    cursor: pointer; transition: background 0.2s, border-color 0.2s, color 0.2s; border: 1.5px solid transparent;
+    user-select: none;
+    min-height: 44px;
+    min-width: 44px;
+  }
+  .filter-badge:hover { transform: translateY(-1px); }
+  .filter-badge.active { border-color: currentColor; }
+  .filter-badge .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+  /* Card type filters */
+  .ft-normal { background: rgba(148,163,184,0.1); color: #94a3b8; }
+  .ft-normal .dot { background: #94a3b8; }
+  .ft-chain { background: rgba(34,211,238,0.1); color: #22d3ee; }
+  .ft-chain .dot { background: #22d3ee; }
+  .ft-combo { background: rgba(16,185,129,0.1); color: #10b981; }
+  .ft-combo .dot { background: #10b981; }
+  .ft-breakthrough { background: rgba(251,191,36,0.1); color: #fbbf24; }
+  .ft-breakthrough .dot { background: #fbbf24; }
+
+  /* Effect filters */
+  .fe-paralyze { background: rgba(251,191,36,0.1); color: #fbbf24; }
+  .fe-paralyze .dot { background: #fbbf24; }
+  .fe-disruption { background: rgba(168,85,247,0.1); color: #a855f7; }
+  .fe-disruption .dot { background: #a855f7; }
+  .fe-burn { background: rgba(249,115,22,0.1); color: #f97316; }
+  .fe-burn .dot { background: #f97316; }
+  .fe-vulnerable { background: rgba(239,68,68,0.1); color: #ef4444; }
+  .fe-vulnerable .dot { background: #ef4444; }
+  .fe-slow { background: rgba(34,211,238,0.1); color: #22d3ee; }
+  .fe-slow .dot { background: #22d3ee; }
+  .fe-physvuln { background: rgba(236,72,153,0.1); color: #ec4899; }
+  .fe-physvuln .dot { background: #ec4899; }
+
+  /* Tier filters */
+  .ftier-1 { background: rgba(99,102,241,0.1); color: var(--tier1-color); }
+  .ftier-1 .dot { background: var(--tier1-color); }
+  .ftier-2 { background: rgba(168,85,247,0.1); color: var(--tier2-color); }
+  .ftier-2 .dot { background: var(--tier2-color); }
+  .ftier-3 { background: rgba(251,191,36,0.1); color: var(--tier3-color); }
+  .ftier-3 .dot { background: var(--tier3-color); }
+
+  .filter-clear {
+    padding: 8px 14px; border-radius: 20px; font-size: 0.7rem; font-weight: 600;
+    cursor: pointer; background: rgba(148,163,184,0.08); color: var(--text-muted);
+    border: none; font-family: inherit; transition: background 0.2s, border-color 0.2s, color 0.2s;
+    display: inline-flex; align-items: center; gap: 4px;
+    min-height: 44px;
+    min-width: 44px;
+  }
+  .filter-clear.has-filters { background: rgba(239,68,68,0.12); color: #ef4444; }
+  .filter-clear:hover { background: rgba(239,68,68,0.2); color: #ef4444; }
+
+  /* === STATS BAR === */
+  .stats-bar {
+    max-width: 1400px; margin: 16px auto 0; padding: 0 2rem;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .stat-chip {
+    padding: 4px 12px; border-radius: 8px; font-size: 0.7rem; font-weight: 600;
+    background: rgba(255,255,255,0.04); color: var(--text-secondary);
+  }
+  .stat-chip strong { color: var(--text-primary); }
+
+  /* === MAIN LAYOUT === */
+  .main { max-width: 1400px; margin: 0 auto; padding: 1rem 2rem 3rem; position: relative; z-index: 1; }
+
+  /* === TURRET GRID === */
+  .turret-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px; margin-bottom: 2rem;
+    overflow-x: hidden;
+  }
+  .turret-tile {
+    background: var(--bg-card);
+    border: 1px solid var(--border-primary);
+    border-radius: 14px;
+    padding: 20px 16px;
+    cursor: pointer;
+    transition: transform 0.25s cubic-bezier(0.4,0,0.2,1), background 0.25s, border-color 0.25s, box-shadow 0.25s;
+    position: relative; overflow: hidden; text-align: center;
+  }
+  .turret-tile::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--tile-accent, var(--accent-blue));
+    opacity: 0; transition: opacity 0.25s;
+  }
+  .turret-tile:hover, .turret-tile.active {
+    background: var(--bg-card-hover);
+    border-color: var(--tile-accent, var(--accent-blue));
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3), 0 0 20px color-mix(in srgb, var(--tile-accent, var(--accent-blue)) 15%, transparent);
+  }
+  .turret-tile:hover::before, .turret-tile.active::before { opacity: 1; }
+  .turret-tile.active { border-width: 2px; }
+  .turret-tile.hidden { display: none; }
+  .tile-icon {
+    width: 52px; height: 52px; border-radius: 14px; margin: 0 auto 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+  }
+  .tile-name { font-size: 0.875rem; font-weight: 700; letter-spacing: 0.02em; margin-bottom: 4px; }
+  .tile-type { font-size: 0.7rem; color: var(--text-muted); font-weight: 500; }
+  .tile-card-count {
+    display: inline-flex; align-items: center; gap: 4px;
+    margin-top: 10px; padding: 3px 10px;
+    background: rgba(255,255,255,0.04); border-radius: 20px;
+    font-size: 0.7rem; color: var(--text-secondary); font-weight: 600;
+  }
+
+  /* === DETAIL PANEL === */
+  .detail-panel {
+    display: none;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: 18px; overflow: hidden;
+    animation: slideDown 0.35s cubic-bezier(0.4,0,0.2,1);
+    margin-bottom: 3rem;
+  }
+  .detail-panel.open { display: block; }
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .detail-header {
+    padding: 28px 32px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border-primary);
+    gap: 12px;
+  }
+  .detail-header-left { display: flex; align-items: center; gap: 16px; }
+  .detail-icon {
+    width: 56px; height: 56px; border-radius: 16px;
+    display: flex; align-items: center; justify-content: center; font-size: 28px;
+  }
+  .detail-title { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.01em; }
+  .detail-subtitle { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
+  .close-btn {
+    width: 44px; height: 44px; border-radius: 10px;
+    background: rgba(255,255,255,0.05); border: 1px solid var(--border-primary);
+    color: var(--text-muted); cursor: pointer; font-size: 18px;
+    display: flex; align-items: center; justify-content: center; transition: background 0.2s, border-color 0.2s, color 0.2s;
+  }
+  .close-btn:hover { background: rgba(255,255,255,0.1); color: var(--text-primary); transition: background 0.2s, color 0.2s; }
+
+  /* === TABS === */
+  .tab-bar {
+    display: flex; padding: 0 32px;
+    border-bottom: 1px solid var(--border-primary); gap: 4px;
+  }
+  .tab-btn {
+    padding: 14px 20px; font-size: 0.8rem; font-weight: 600;
+    font-family: inherit; color: var(--text-muted); background: none; border: none;
+    cursor: pointer; position: relative; transition: color 0.2s;
+    border-bottom: 2px solid transparent; margin-bottom: -1px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+  .tab-btn:hover { color: var(--text-secondary); }
+  .tab-btn.active { color: var(--text-primary); border-bottom-color: var(--accent-blue); }
+  .tab-btn .tab-count {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 20px; height: 20px; padding: 0 6px;
+    border-radius: 10px; font-size: 0.65rem; font-weight: 700; margin-left: 6px;
+  }
+  .tab-btn[data-tier="1"] .tab-count { background: rgba(99,102,241,0.15); color: var(--tier1-color); }
+  .tab-btn[data-tier="2"] .tab-count { background: rgba(168,85,247,0.15); color: var(--tier2-color); }
+  .tab-btn[data-tier="3"] .tab-count { background: rgba(251,191,36,0.15); color: var(--tier3-color); }
+  .tab-btn[data-tier="chains"] .tab-count { background: rgba(34,211,238,0.15); color: var(--chain-color); }
+
+  /* === CARD ROWS === */
+  .tab-content { display: none; padding: 24px 32px 32px; }
+  .tab-content.active { display: block; }
+  .card-list { display: flex; flex-direction: column; gap: 8px; }
+
+  .card-row {
+    display: grid;
+    grid-template-columns: minmax(180px, 1fr) 2fr auto;
+    gap: 12px 16px;
+    align-items: center;
+    padding: 16px 18px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-primary);
+    border-radius: 12px;
+    transition: background 0.2s, border-color 0.2s;
+    min-height: 60px;
+  }
+  .card-row:hover { background: var(--bg-card-hover); border-color: rgba(255,255,255,0.08); }
+  @media (max-width: 768px) {
+    .card-row:active { background: var(--bg-card-hover); border-color: rgba(255,255,255,0.15); }
+  }
+  .card-row.chain-root { border-left: 3px solid var(--chain-color); }
+  .card-row.chain-child { border-left: 3px solid rgba(34,211,238,0.3); margin-left: 16px; }
+  .card-row.combo-card { border-left: 3px solid var(--accent-green); }
+  .card-row.combo-card.chain-root { border-left: 3px solid var(--chain-color); }
+  .card-row.combo-card.chain-child { border-left: 3px solid rgba(34,211,238,0.3); }
+  .card-row.highlight-flash {
+    animation: flashHighlight 1.5s ease-out;
+  }
+  @keyframes flashHighlight {
+    0% { box-shadow: 0 0 0 3px var(--chain-color), 0 0 20px rgba(34,211,238,0.3); background: rgba(34,211,238,0.08); }
+    100% { box-shadow: none; background: var(--bg-card); }
+  }
+  .card-row.filter-hidden { display: none; }
+  .tier-section-empty { display: none; }
+
+  .card-name-cell { display: flex; align-items: center; gap: 10px; }
+  .card-name { font-size: 0.875rem; font-weight: 600; }
+  .chain-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; border-radius: 6px;
+    background: rgba(34,211,238,0.12); color: var(--chain-color);
+    font-size: 11px; flex-shrink: 0;
+  }
+  .card-effect { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5; }
+  .card-meta { display: flex; gap: 6px; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
+  .meta-tag {
+    padding: 4px 10px; border-radius: 6px;
+    font-size: 0.6rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap;
+  }
+  .tag-chain { background: rgba(34,211,238,0.12); color: var(--chain-color); }
+  .tag-combo { background: rgba(16,185,129,0.12); color: var(--accent-green); }
+  .tag-unlock { background: rgba(251,191,36,0.12); color: var(--accent-gold); }
+  .tag-normal { background: rgba(148,163,184,0.08); color: var(--text-muted); }
+
+  /* === CARD TYPE BADGE (next to name) === */
+  .card-type-badge {
+    padding: 2px 7px; border-radius: 4px;
+    font-size: 0.6rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.03em;
+    flex-shrink: 0;
+  }
+  .ctb-normal { background: rgba(148,163,184,0.08); color: #64748b; }
+  .ctb-chain { background: rgba(34,211,238,0.1); color: #22d3ee; }
+  .ctb-combo { background: rgba(16,185,129,0.1); color: #10b981; }
+  .ctb-breakthrough { background: rgba(251,191,36,0.1); color: #fbbf24; }
+
+  /* === COMBO STRIP === */
+  .combo-strip {
+    grid-column: 1 / -1;
+    display: flex; align-items: center; gap: 8px;
+    padding: 7px 12px; margin-top: 4px;
+    background: rgba(16,185,129,0.04);
+    border: 1px solid rgba(16,185,129,0.12);
+    border-radius: 8px;
+    flex-wrap: wrap;
+  }
+  .combo-strip-label {
+    font-size: 0.65rem; font-weight: 700; color: var(--accent-green);
+    text-transform: uppercase; letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+  .combo-turret-link {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 6px 12px; border-radius: 6px;
+    font-size: 0.75rem; font-weight: 600;
+    cursor: pointer; transition: background 0.15s, border-color 0.15s, color 0.15s;
+    text-decoration: none; white-space: nowrap;
+    background: rgba(255,255,255,0.05); color: var(--text-primary);
+    border: 1px solid rgba(255,255,255,0.08);
+    min-height: 32px;
+    min-width: 32px;
+  }
+  .combo-turret-link:hover {
+    background: rgba(255,255,255,0.1); transform: translateY(-1px);
+    border-color: rgba(255,255,255,0.15);
+  }
+  @media (max-width: 768px) {
+    .combo-turret-link:active { background: rgba(255,255,255,0.15); }
+  }
+  .combo-turret-link .combo-icon { font-size: 14px; }
+  .combo-plus { color: var(--accent-green); font-weight: 700; font-size: 14px; }
+
+  /* === CHAIN PATH STRIP === */
+  .chain-path-strip {
+    display: flex; align-items: center; gap: 0;
+    padding: 7px 12px; margin-top: 4px;
+    background: rgba(34,211,238,0.04);
+    border: 1px solid rgba(34,211,238,0.1);
+    border-radius: 8px;
+    flex-wrap: wrap;
+    grid-column: 1 / -1;
+  }
+  .chain-path-strip .cp-label {
+    font-size: 0.65rem; font-weight: 700; color: var(--chain-color);
+    text-transform: uppercase; letter-spacing: 0.06em;
+    margin-right: 10px; white-space: nowrap;
+  }
+  .chain-path-node {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 6px 12px; border-radius: 6px;
+    font-size: 0.75rem; font-weight: 600;
+    cursor: pointer; transition: background 0.15s, border-color 0.15s, color 0.15s;
+    text-decoration: none; white-space: nowrap;
+    min-height: 32px;
+    min-width: 32px;
+  }
+  .chain-path-node:hover { transform: translateY(-1px); filter: brightness(1.3); }
+  .chain-path-node.cp-current { outline: 2px solid currentColor; outline-offset: 1px; cursor: default; }
+  .chain-path-node.cp-current:hover { transform: none; filter: none; }
+  .cp-t1 { background: rgba(99,102,241,0.12); color: var(--tier1-color); }
+  .cp-t2 { background: rgba(168,85,247,0.12); color: var(--tier2-color); }
+  .cp-t3 { background: rgba(251,191,36,0.12); color: var(--tier3-color); }
+  .chain-path-arrow { color: var(--text-muted); font-size: 12px; margin: 0 4px; flex-shrink: 0; }
+
+  /* === STATUS EFFECT PILLS === */
+  .fx-pill {
+    display: inline-flex; align-items: center; gap: 3px;
+    padding: 4px 10px; border-radius: 4px;
+    font-size: 0.72rem; font-weight: 700; vertical-align: middle;
+    cursor: pointer; position: relative;
+    transition: filter 0.15s;
+    min-height: 24px;
+  }
+  .fx-pill:hover { filter: brightness(1.25); }
+  .fx-pill::after {
+    content: '?';
+    font-size: 0.6rem; opacity: 0.6;
+    margin-left: 1px;
+  }
+  .fx-paralyze { background: rgba(251,191,36,0.15); color: #fbbf24; }
+  .fx-disruption { background: rgba(168,85,247,0.15); color: #c084fc; }
+  .fx-burn { background: rgba(249,115,22,0.15); color: #fb923c; }
+  .fx-vulnerable { background: rgba(239,68,68,0.15); color: #f87171; }
+  .fx-slow { background: rgba(34,211,238,0.15); color: #22d3ee; }
+  .fx-physvuln { background: rgba(236,72,153,0.15); color: #f472b6; }
+
+  /* === EFFECT TOOLTIP === */
+  .effect-tooltip {
+    position: fixed;
+    z-index: 9999;
+    max-width: 240px;
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 10px;
+    padding: 10px 14px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.15s, transform 0.15s;
+  }
+  .effect-tooltip.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .tooltip-name {
+    font-size: 0.75rem; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 0.05em;
+    margin-bottom: 5px;
+  }
+  .tooltip-desc {
+    font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5;
+  }
+  .tooltip-arrow {
+    position: absolute;
+    bottom: -6px; left: 50%;
+    transform: translateX(-50%);
+    width: 10px; height: 6px;
+    overflow: hidden;
+  }
+  .tooltip-arrow::before {
+    content: '';
+    position: absolute;
+    top: -6px; left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 10px; height: 10px;
+    background: #1e293b;
+    border: 1px solid #334155;
+  }
+
+  /* === CHAIN TREE === */
+  .chain-tree-section { display: flex; flex-direction: column; gap: 28px; }
+  .chain-tree {
+    background: var(--bg-card);
+    border: 1px solid var(--border-primary);
+    border-radius: 14px; padding: 24px;
+  }
+  .chain-tree-title {
+    font-size: 0.8rem; font-weight: 700; color: var(--chain-color);
+    text-transform: uppercase; letter-spacing: 0.06em;
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .chain-tree-title::before {
+    content: ''; width: 10px; height: 10px; border-radius: 50%;
+    background: var(--chain-color);
+  }
+  .chain-nodes { display: flex; flex-direction: column; gap: 0; }
+  .chain-node {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 16px; position: relative;
+    border-radius: 8px; transition: background 0.15s; cursor: pointer;
+    min-height: 48px;
+  }
+  .chain-node:hover { background: rgba(255,255,255,0.03); }
+  .chain-node::before {
+    content: '';
+    position: absolute; left: 28px; top: 0; bottom: 0;
+    width: 2px; background: rgba(34,211,238,0.15);
+  }
+  .chain-node:first-child::before { top: 50%; }
+  .chain-node:last-child::before { bottom: 50%; }
+  .chain-node:only-child::before { display: none; }
+  .node-dot {
+    width: 16px; height: 16px; border-radius: 50%;
+    flex-shrink: 0; z-index: 1;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .node-dot-inner { width: 8px; height: 8px; border-radius: 50%; }
+  .node-t1 .node-dot { background: rgba(99,102,241,0.2); }
+  .node-t1 .node-dot-inner { background: var(--tier1-color); }
+  .node-t2 .node-dot { background: rgba(168,85,247,0.2); }
+  .node-t2 .node-dot-inner { background: var(--tier2-color); }
+  .node-t3 .node-dot { background: rgba(251,191,36,0.2); }
+  .node-t3 .node-dot-inner { background: var(--tier3-color); }
+  .node-info { flex: 1; }
+  .node-name { font-size: 0.85rem; font-weight: 600; }
+  .node-tier {
+    font-size: 0.7rem; font-weight: 600;
+    padding: 2px 8px; border-radius: 4px;
+    display: inline-block; margin-top: 3px;
+  }
+  .node-t1 .node-tier { background: rgba(99,102,241,0.12); color: var(--tier1-color); }
+  .node-t2 .node-tier { background: rgba(168,85,247,0.12); color: var(--tier2-color); }
+  .node-t3 .node-tier { background: rgba(251,191,36,0.12); color: var(--tier3-color); }
+  .node-effect { font-size: 0.68rem; color: var(--text-muted); margin-top: 4px; line-height: 1.4; max-width: 190px; }
+  .node-arrow { color: var(--text-muted); font-size: 16px; flex-shrink: 0; margin: 0 4px; }
+
+  /* === RESPONSIVE — Mobile First === */
+  @media (max-width: 900px) {
+    /* Header becomes non-sticky on mobile for more screen space */
+    .header { position: relative; top: auto; padding: 0 1rem; }
+    .main-tabs { position: relative; top: auto; }
+    .filter-bar { position: relative; top: auto; }
+    .header-inner { flex-direction: column; height: auto; padding: 10px 0; gap: 8px; }
+    .search-wrap { width: 100%; }
+    .logo-text { font-size: 1rem; }
+
+    /* Main nav tabs */
+    .main-tabs { padding: 0 1rem; top: 0; }
+    .main-tab-inner { gap: 6px; }
+    .main-tab-btn { flex: 1; text-align: center; padding: 10px 8px; font-size: 0.75rem; }
+    .main-tab-inner { gap: 4px; }
+
+    /* Filter bar */
+    .filter-bar { padding: 8px 1rem; }
+    .filter-bar-inner { gap: 6px; }
+    .filter-row { gap: 5px; flex-wrap: wrap; }
+    .filter-label { min-width: 56px; font-size: 0.6rem; }
+    .filter-badge { padding: 8px 12px; font-size: 0.65rem; min-height: 40px; }
+    .filter-clear { padding: 8px 12px; font-size: 0.65rem; min-height: 40px; }
+
+    /* Stats bar */
+    .stats-bar { padding: 0 1rem; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .stat-chip { font-size: 0.65rem; padding: 3px 8px; }
+
+    /* Main layout */
+    .main { padding: 12px 1rem 2rem; }
+
+    /* Turret grid — 2 columns on mobile */
+    .turret-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 1.2rem; }
+    .turret-tile { padding: 14px 10px; border-radius: 12px; min-height: 120px; }
+    .tile-icon { font-size: 1.6rem; margin-bottom: 6px; }
+    .tile-name { font-size: 0.8rem; }
+    .tile-type { font-size: 0.65rem; }
+    .tile-card-count { font-size: 0.62rem; margin-top: 8px; }
+
+    /* Detail panel — full width, no fixed height */
+    .detail-panel { border-radius: 14px; }
+    .detail-header { padding: 16px 1rem; gap: 12px; flex-wrap: wrap; align-items: flex-start; }
+    .detail-header-icon { width: 40px; height: 40px; font-size: 1.4rem; }
+    .detail-header-name { font-size: 1.1rem; }
+    .tab-bar { padding: 0 1rem; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .tab-btn { padding: 10px 14px; font-size: 0.75rem; white-space: nowrap; }
+    .tab-content { padding: 16px 1rem; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+
+    /* Card rows — single column */
+    .card-row { grid-template-columns: 1fr; gap: 8px; padding: 12px 0; }
+    .card-meta { justify-content: flex-start; flex-wrap: wrap; gap: 4px; }
+    .card-effect { font-size: 0.78rem; }
+
+    /* Chain nodes — allow vertical wrap */
+    .chain-nodes { flex-wrap: wrap; gap: 6px; }
+    .chain-node { min-width: 120px; }
+    .node-effect { max-width: 150px; }
+
+    /* Build Planner */
+    .build-planner { padding: 14px 1rem 40px; }
+    .bp-roster { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .bp-turret-tile { padding: 10px 6px; border-radius: 10px; }
+    .bp-tile-icon { font-size: 1.3rem; margin-bottom: 4px; }
+    .bp-tile-name { font-size: 0.65rem; }
+    .bp-tile-type { font-size: 0.57rem; }
+    .bp-stat-body.open { grid-template-columns: 1fr; gap: 12px; }
+    .bp-dps-bar-name { font-size: 0.65rem; }
+    .bp-dps-val { font-size: 0.65rem; min-width: 55px; }
+
+    /* Combo Finder mobile */
+    .combo-finder { padding: 16px 1rem 40px; }
+    .cf-picks { gap: 8px; }
+    .cf-pick-slot { min-width: 110px; padding: 12px 8px; min-height: 64px; }
+    .cf-pick-vs { font-size: 0.85rem; }
+    .cf-roster { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+    .cf-turret-btn { padding: 8px 4px; border-radius: 8px; }
+    .cf-btn-icon { font-size: 1.1rem; }
+    .cf-btn-name { font-size: 0.58rem; }
+    .cf-combo-card { padding: 16px; }
+    .cf-combo-name { font-size: 0.9rem; }
+  }
+
+  @media (max-width: 480px) {
+    .turret-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .bp-roster { grid-template-columns: repeat(2, 1fr); }
+    .filter-row { overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; padding-bottom: 4px; gap: 6px; }
+    .filter-badge { flex-shrink: 0; }
+    .filter-clear { flex-shrink: 0; }
+    .cf-roster { grid-template-columns: repeat(3, 1fr); }
+    .cf-picks { flex-direction: column; align-items: stretch; }
+    .cf-pick-slot { max-width: none; min-width: 100%; }
+    .cf-pick-vs { text-align: center; }
+  }
+  /* === MAIN TABS === */
+  .main-tabs {
+    background: rgba(10,14,26,0.8);
+    border-bottom: 1px solid var(--border-primary);
+    padding: 0 2rem;
+    position: sticky; top: 64px; z-index: 90;
+  }
+  .main-tab-inner {
+    max-width: 1400px; margin: 0 auto;
+    display: flex; gap: 4px; padding: 8px 0;
+  }
+  .main-tab-btn {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--text-muted);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem; font-weight: 600;
+    padding: 10px 18px; border-radius: 8px;
+    cursor: pointer; transition: background 0.2s, border-color 0.2s, color 0.2s;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+  .main-tab-btn:hover { color: var(--text-primary); background: rgba(255,255,255,0.05); }
+  .main-tab-btn.active {
+    background: rgba(99,102,241,0.15);
+    border-color: rgba(99,102,241,0.4);
+    color: var(--accent-blue);
+  }
+
+  /* === BUILD PLANNER === */
+  .build-planner {
+    max-width: 1400px; margin: 0 auto;
+    padding: 24px 2rem 60px;
+  }
+  .bp-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .bp-layout { grid-template-columns: 1fr; }
+    .bp-steps { top: 0; position: sticky; z-index: 50; margin: -16px -1rem 16px; border-radius: 0; border-left: none; border-right: none; }
+    .bp-step { font-size: 0.68rem; padding: 10px 8px; min-height: 40px; }
+    .bp-clear-btn, .bp-save-btn { font-size: 0.6rem; padding: 3px 8px; }
+    .bp-section-title { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+  }
+  .bp-section-title {
+    font-size: 0.75rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--text-muted); margin-bottom: 12px;
+  }
+  .bp-subtitle { font-size: 0.7rem; font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--text-muted); opacity: 0.6; }
+  /* Step indicator */
+  .bp-steps {
+    display: flex; gap: 4px; margin-bottom: 20px;
+    background: var(--bg-card); border: 1px solid var(--border-primary);
+    border-radius: 12px; padding: 6px; position: sticky; top: 64px; z-index: 50;
+  }
+  .bp-step {
+    flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px;
+    background: transparent; border: none; color: var(--text-muted);
+    font-family: inherit; font-size: 0.72rem; font-weight: 600;
+    padding: 10px 8px; border-radius: 8px; cursor: pointer; transition: background 0.15s, border-color 0.15s, color 0.15s;
+    min-height: 44px;
+  }
+  .bp-step:hover { background: rgba(255,255,255,0.05); color: var(--text-secondary); }
+  .bp-step.active { background: rgba(99,102,241,0.15); color: var(--accent-blue); }
+  .bp-step-num {
+    width: 20px; height: 20px; border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.6rem; font-weight: 800;
+  }
+  .bp-step.active .bp-step-num { background: rgba(99,102,241,0.3); }
+
+  /* Clear / Save buttons */
+  .bp-clear-btn {
+    float: right; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3);
+    color: var(--accent-red); font-size: 0.65rem; font-weight: 600;
+    padding: 8px 14px; border-radius: 6px; cursor: pointer;
+    font-family: inherit; text-transform: none; letter-spacing: 0;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+    min-height: 40px;
+  }
+  .bp-clear-btn:hover { background: rgba(239,68,68,0.2); }
+  .bp-stat-actions { display: inline-flex; float: right; gap: 6px; }
+  .bp-save-btn {
+    background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.3);
+    color: var(--accent-blue); font-size: 0.65rem; font-weight: 600;
+    padding: 8px 14px; border-radius: 6px; cursor: pointer;
+    font-family: inherit; text-transform: none; letter-spacing: 0;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+    min-height: 40px;
+  }
+  .bp-save-btn:hover { background: rgba(99,102,241,0.2); }
+  .bp-save-btn.saved { background: rgba(16,185,129,0.15); border-color: rgba(16,185,129,0.4); color: var(--accent-green); }
+  .bp-turret-count {
+    font-size: 0.8rem; color: var(--accent-blue);
+    font-weight: 600; margin-bottom: 12px;
+  }
+  .bp-roster {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 10px;
+  }
+  .bp-turret-tile {
+    background: var(--bg-card);
+    border: 1px solid var(--border-primary);
+    border-radius: 12px;
+    padding: 14px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.15s 0.18s;
+    user-select: none;
+    min-height: 44px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .bp-turret-tile:hover { border-color: rgba(99,102,241,0.4); background: var(--bg-card-hover); }
+  .bp-turret-tile.selected {
+    border-color: var(--tile-accent, var(--accent-blue));
+    background: color-mix(in srgb, var(--tile-accent, var(--accent-blue)) 10%, var(--bg-card));
+    box-shadow: 0 0 0 1px var(--tile-accent, var(--accent-blue));
+  }
+  .bp-turret-tile.disabled { opacity: 0.35; cursor: not-allowed; }
+  .bp-tile-icon { font-size: 1.6rem; margin-bottom: 6px; }
+  .bp-tile-name { font-size: 0.72rem; font-weight: 600; color: var(--text-primary); line-height: 1.3; }
+  .bp-tile-type { font-size: 0.62rem; color: var(--text-muted); margin-top: 3px; }
+
+  /* Stat panels */
+  .bp-stat-panel {
+    background: var(--bg-card);
+    border: 1px solid var(--border-primary);
+    border-radius: 12px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .bp-stat-header {
+    display: flex; align-items: center; gap: 10px;
+    padding: 14px 16px;
+    cursor: pointer;
+    border-bottom: 1px solid transparent;
+    transition: background 0.15s;
+    min-height: 44px;
+  }
+  .bp-stat-header:hover { background: rgba(255,255,255,0.03); }
+  @media (max-width: 768px) {
+    .bp-stat-header:active { background: rgba(255,255,255,0.06); }
+  }
+  .bp-stat-header.open { border-bottom-color: var(--border-primary); }
+  .bp-stat-header-icon { font-size: 1.2rem; }
+  .bp-stat-header-name { font-size: 0.85rem; font-weight: 700; flex: 1; }
+  .bp-stat-header-dps { font-size: 0.75rem; color: var(--accent-blue); font-weight: 600; }
+  .bp-stat-chevron { font-size: 0.7rem; color: var(--text-muted); transition: transform 0.2s; }
+  .bp-stat-header.open .bp-stat-chevron { transform: rotate(180deg); }
+  .bp-stat-body { display: none; padding: 14px 16px; }
+  .bp-stat-body.open { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .bp-field { display: flex; flex-direction: column; gap: 6px; }
+  .bp-field label { font-size: 0.65rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+  .bp-field input {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border-primary);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    padding: 10px 12px;
+    width: 100%;
+    transition: border-color 0.15s;
+    min-height: 44px;
+  }
+  .bp-field input:focus { outline: none; border-color: var(--accent-blue); }
+  .bp-field-full { grid-column: 1 / -1; }
+  .bp-guardian-note {
+    grid-column: 1 / -1;
+    font-size: 0.7rem; color: var(--accent-gold);
+    background: rgba(251,191,36,0.07);
+    border: 1px solid rgba(251,191,36,0.15);
+    border-radius: 6px; padding: 8px 10px;
+    margin-top: 4px;
+  }
+
+  /* Strategy output */
+  .bp-strategy {
+    background: var(--bg-card);
+    border: 1px solid var(--border-primary);
+    border-radius: 14px;
+    overflow: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .bp-empty {
+    padding: 40px 20px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+  }
+  .bp-strat-section { padding: 18px 20px; border-bottom: 1px solid var(--border-primary); }
+  .bp-strat-section:last-child { border-bottom: none; }
+  .bp-strat-label {
+    font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 12px;
+  }
+  .bp-dps-row {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 8px;
+  }
+  .bp-dps-rank {
+    width: 22px; height: 22px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.65rem; font-weight: 700; flex-shrink: 0;
+  }
+  .bp-dps-rank-1 { background: rgba(251,191,36,0.2); color: var(--accent-gold); }
+  .bp-dps-rank-2 { background: rgba(99,102,241,0.2); color: var(--accent-blue); }
+  .bp-dps-rank-3 { background: rgba(168,85,247,0.2); color: var(--accent-purple); }
+  .bp-dps-rank-4, .bp-dps-rank-5 { background: rgba(255,255,255,0.06); color: var(--text-muted); }
+  .bp-dps-bar-wrap { flex: 1; height: 28px; background: rgba(255,255,255,0.04); border-radius: 6px; overflow: hidden; position: relative; will-change: width; }
+  .bp-dps-bar { height: 100%; border-radius: 6px; display: flex; align-items: center; padding: 0 10px; min-width: 40px; transition: width 0.4s ease; }
+  .bp-dps-bar-name { font-size: 0.72rem; font-weight: 600; white-space: nowrap; }
+  .bp-dps-val { font-size: 0.7rem; font-weight: 600; color: var(--text-secondary); min-width: 65px; text-align: right; font-family: 'JetBrains Mono', monospace; }
+  .bp-priority-list { list-style: none; }
+  .bp-priority-list li {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.8rem;
+  }
+  .bp-priority-list li:last-child { border-bottom: none; }
+  .bp-pri-num {
+    width: 20px; height: 20px; border-radius: 50%;
+    background: rgba(99,102,241,0.15); color: var(--accent-blue);
+    font-size: 0.65rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .bp-pri-text { flex: 1; color: var(--text-secondary); line-height: 1.5; }
+  .bp-pri-text strong { color: var(--text-primary); }
+  .bp-tip {
+    display: flex; gap: 8px; align-items: flex-start;
+    padding: 8px 10px; border-radius: 8px; margin-bottom: 6px;
+    font-size: 0.78rem; line-height: 1.5;
+  }
+  .bp-tip-warn { background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.2); color: #e2b855; }
+  .bp-tip-good { background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2); color: #34d399; }
+  .bp-tip-info { background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.2); color: #818cf8; }
+  .bp-combo-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(249,115,22,0.12); border: 1px solid rgba(249,115,22,0.3);
+    border-radius: 6px; padding: 4px 10px; font-size: 0.75rem;
+    color: var(--accent-orange); margin: 3px 3px 3px 0;
+  }
+
+  @media (max-width: 768px) {
+    .build-planner { padding: 16px 1rem 40px; }
+    .bp-stat-body.open { grid-template-columns: 1fr; gap: 12px; }
+    .bp-layout { gap: 20px; }
+    .bp-roster { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
+  }
+
+  /* === COMBO FINDER === */
+  .combo-finder {
+    max-width: 1400px; margin: 0 auto;
+    padding: 24px 2rem 60px;
+  }
+  .cf-header { margin-bottom: 24px; }
+  .cf-title {
+    font-size: 0.75rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--text-muted); margin-bottom: 16px;
+  }
+  .cf-picks {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 20px; flex-wrap: wrap;
+  }
+  .cf-pick-slot {
+    flex: 1; min-width: 140px; max-width: 220px;
+    background: var(--bg-card);
+    border: 2px dashed var(--border-primary);
+    border-radius: 14px;
+    padding: 18px;
+    text-align: center;
+    min-height: 100px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+  }
+  .cf-pick-slot.filled {
+    border-style: solid;
+    border-color: var(--slot-accent, var(--accent-blue));
+    background: color-mix(in srgb, var(--slot-accent, var(--accent-blue)) 8%, var(--bg-card));
+  }
+  .cf-slot-empty { color: var(--text-muted); font-size: 0.8rem; }
+  .cf-slot-icon { font-size: 1.6rem; }
+  .cf-slot-name { font-size: 0.85rem; font-weight: 700; margin-top: 4px; }
+  .cf-slot-type { font-size: 0.65rem; color: var(--text-muted); margin-top: 2px; }
+  .cf-pick-vs {
+    font-size: 1rem; font-weight: 800; color: var(--accent-orange);
+    text-shadow: 0 0 10px rgba(249,115,22,0.4);
+    flex-shrink: 0;
+  }
+  .cf-clear-btn {
+    background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3);
+    color: var(--accent-red); font-size: 0.75rem; font-weight: 600;
+    padding: 10px 18px; border-radius: 8px; cursor: pointer;
+    font-family: inherit; transition: background 0.15s, border-color 0.15s, color 0.15s; flex-shrink: 0;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+  .cf-clear-btn:hover { background: rgba(239,68,68,0.2); }
+  .cf-roster {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 8px;
+  }
+  .cf-turret-btn {
+    background: var(--bg-card);
+    border: 1px solid var(--border-primary);
+    border-radius: 10px;
+    padding: 10px 6px;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+    font-family: inherit; color: var(--text-primary);
+    min-height: 44px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .cf-turret-btn:hover { border-color: rgba(99,102,241,0.4); background: var(--bg-card-hover); }
+  .cf-turret-btn.selected {
+    border-color: var(--tile-accent, var(--accent-blue));
+    background: color-mix(in srgb, var(--tile-accent, var(--accent-blue)) 12%, var(--bg-card));
+    box-shadow: 0 0 0 1px var(--tile-accent, var(--accent-blue));
+  }
+  .cf-turret-btn.disabled { opacity: 0.3; cursor: not-allowed; }
+  .cf-btn-icon { font-size: 1.3rem; }
+  .cf-btn-name { font-size: 0.65rem; font-weight: 600; margin-top: 4px; }
+
+  .cf-results { overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  .cf-combo-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-primary);
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 12px;
+    transition: border-color 0.2s;
+    cursor: pointer;
+  }
+  .cf-combo-card:hover { border-color: var(--accent-orange); }
+  .cf-combo-name {
+    font-size: 1rem; font-weight: 700; color: var(--accent-orange);
+    margin-bottom: 6px;
+  }
+  .cf-combo-turrets {
+    font-size: 0.75rem; color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+  .cf-combo-turrets span {
+    background: rgba(255,255,255,0.06);
+    padding: 2px 8px; border-radius: 6px;
+    margin-right: 6px; font-weight: 600;
+  }
+  .cf-combo-effect {
+    font-size: 0.82rem; color: var(--text-secondary);
+    line-height: 1.6;
+    padding: 10px 14px;
+    background: rgba(255,255,255,0.02);
+    border-radius: 8px;
+    border-left: 3px solid var(--accent-orange);
+  }
+  .cf-combo-tier {
+    display: inline-block;
+    font-size: 0.65rem; font-weight: 700;
+    padding: 2px 8px; border-radius: 4px;
+    margin-bottom: 8px;
+  }
+  .cf-combo-tier-1 { background: rgba(99,102,241,0.12); color: var(--tier1-color); }
+  .cf-combo-tier-2 { background: rgba(168,85,247,0.12); color: var(--tier2-color); }
+  .cf-combo-tier-3 { background: rgba(251,191,36,0.12); color: var(--tier3-color); }
+  .cf-no-combos {
+    text-align: center; padding: 40px 20px;
+    color: var(--text-muted); font-size: 0.85rem;
+  }
+  .cf-combo-count {
+    font-size: 0.8rem; font-weight: 600; color: var(--accent-green);
+    margin-bottom: 16px;
+  }
+
+  /* Total DPS bar in Build Planner */
+  .bp-total-dps {
+    background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(168,85,247,0.08));
+    border: 1px solid rgba(99,102,241,0.3);
+    border-radius: 12px;
+    padding: 16px 20px;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  .bp-total-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 4px; }
+  .bp-total-value { font-size: 1.5rem; font-weight: 800; color: var(--accent-blue); font-family: 'JetBrains Mono', monospace; }
+  .bp-total-sub { font-size: 0.7rem; color: var(--text-muted); margin-top: 4px; }
+
+  /* Range diversity badge */
+  .bp-range-summary {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;
+  }
+  .bp-range-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 6px 12px; border-radius: 8px; font-size: 0.7rem; font-weight: 600;
+    min-height: 28px;
+  }
+  .bp-range-short { background: rgba(239,68,68,0.1); color: #ef4444; }
+  .bp-range-medium { background: rgba(251,191,36,0.1); color: #fbbf24; }
+  .bp-range-long { background: rgba(16,185,129,0.1); color: #10b981; }
+
+  /* Build share */
+  .bp-share-bar {
+    display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap;
+  }
+  .bp-share-btn {
+    background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.3);
+    color: var(--accent-blue); font-size: 0.72rem; font-weight: 600;
+    padding: 7px 14px; border-radius: 8px; cursor: pointer;
+    font-family: inherit; transition: background 0.15s, border-color 0.15s, color 0.15s;
+  }
+  .bp-share-btn:hover { background: rgba(99,102,241,0.2); }
+  .bp-share-btn.copied { background: rgba(16,185,129,0.15); border-color: rgba(16,185,129,0.4); color: var(--accent-green); }
+
+  /* === GAME SIMULATOR === */
+  .sim-panel {
+    background: var(--bg-card);
+    border: 1px solid var(--border-primary);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-top: 20px;
+  }
+  .sim-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(168,85,247,0.08));
+    border-bottom: 1px solid var(--border-primary);
+  }
+  .sim-header-left { display: flex; align-items: center; gap: 10px; }
+  .sim-round-label { font-size: 1rem; font-weight: 800; color: var(--accent-blue); }
+  .sim-round-sub { font-size: 0.7rem; color: var(--text-muted); }
+  .sim-header-btns { display: flex; gap: 8px; }
+  .sim-btn {
+    background: rgba(255,255,255,0.06); border: 1px solid var(--border-primary);
+    color: var(--text-secondary); font-size: 0.72rem; font-weight: 600;
+    padding: 10px 16px; border-radius: 8px; cursor: pointer;
+    font-family: inherit; transition: background 0.15s, border-color 0.15s, color 0.15s;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+  .sim-btn:hover { background: rgba(255,255,255,0.1); color: var(--text-primary); }
+  .sim-btn-danger { border-color: rgba(239,68,68,0.3); color: var(--accent-red); }
+  .sim-btn-danger:hover { background: rgba(239,68,68,0.15); }
+  .sim-btn-primary { background: rgba(99,102,241,0.15); border-color: rgba(99,102,241,0.4); color: var(--accent-blue); }
+  .sim-btn-primary:hover { background: rgba(99,102,241,0.25); }
+  .sim-btn-confirm { background: rgba(16,185,129,0.15); border-color: rgba(16,185,129,0.4); color: var(--accent-green); font-size: 0.82rem; padding: 12px 20px; min-height: 44px; }
+  .sim-btn-confirm:hover { background: rgba(16,185,129,0.25); }
+  .sim-btn-start { background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(168,85,247,0.2)); border: 1px solid rgba(99,102,241,0.5); color: #a5b4fc; font-weight: 700; font-size: 0.85rem; padding: 14px 24px; border-radius: 10px; cursor: pointer; font-family: inherit; transition: background 0.2s, border-color 0.2s, color 0.2s; width: 100%; margin-top: 16px; min-height: 48px; }
+  .sim-btn-start:hover { background: linear-gradient(135deg, rgba(99,102,241,0.3), rgba(168,85,247,0.3)); transform: translateY(-1px); }
+  .sim-btn-start:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
+
+  .sim-body { padding: 20px; }
+  .sim-section { margin-bottom: 20px; }
+  .sim-section-label {
+    font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 12px;
+    margin-top: 4px;
+  }
+
+  /* Card search inputs */
+  .sim-card-inputs { display: flex; flex-direction: column; gap: 10px; }
+  .sim-card-input-wrap { position: relative; }
+  .sim-card-input {
+    width: 100%; padding: 12px 14px 12px 40px;
+    background: rgba(255,255,255,0.04); border: 1px solid var(--border-primary);
+    border-radius: 10px; color: var(--text-primary); font-family: inherit; font-size: 0.82rem;
+    outline: none; transition: border-color 0.15s;
+    min-height: 44px;
+  }
+  .sim-card-input:focus { border-color: var(--accent-blue); }
+  .sim-card-input::placeholder { color: var(--text-muted); }
+  .sim-input-num {
+    position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+    font-size: 0.7rem; font-weight: 700; color: var(--text-muted);
+  }
+  .sim-card-input.filled { border-color: var(--accent-green); background: rgba(16,185,129,0.05); }
+  .sim-dropdown {
+    position: absolute; top: 100%; left: 0; right: 0; z-index: 200;
+    background: var(--bg-secondary); border: 1px solid var(--border-primary);
+    border-radius: 10px; margin-top: 4px; max-height: 240px; overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    display: none;
+  }
+  .sim-dropdown.open { display: block; }
+  .sim-dropdown-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 14px; cursor: pointer; transition: background 0.1s;
+    font-size: 0.78rem;
+    min-height: 40px;
+  }
+  .sim-dropdown-item:hover { background: rgba(255,255,255,0.06); }
+  .sim-dropdown-item.picked { opacity: 0.3; pointer-events: none; }
+  .sim-dd-icon { font-size: 1rem; flex-shrink: 0; }
+  .sim-dd-name { font-weight: 600; flex: 1; }
+  .sim-dd-tier { font-size: 0.6rem; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
+  .sim-dd-tier-1 { background: rgba(99,102,241,0.12); color: var(--tier1-color); }
+  .sim-dd-tier-2 { background: rgba(168,85,247,0.12); color: var(--tier2-color); }
+  .sim-dd-tier-3 { background: rgba(251,191,36,0.12); color: var(--tier3-color); }
+  .sim-dd-turret { font-size: 0.6rem; color: var(--text-muted); flex-shrink: 0; }
+
+  /* Recommendation */
+  .sim-rec { display: flex; flex-direction: column; gap: 8px; }
+  .sim-rec-card {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 16px; border-radius: 10px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border-primary);
+    cursor: pointer; transition: background 0.15s, border-color 0.15s, color 0.15s;
+    min-height: 48px;
+  }
+  .sim-rec-card:hover { background: rgba(255,255,255,0.05); }
+  .sim-rec-card.best { background: rgba(16,185,129,0.06); border-color: rgba(16,185,129,0.3); }
+  .sim-rec-card.selected { background: rgba(99,102,241,0.1); border-color: var(--accent-blue); box-shadow: 0 0 0 1px var(--accent-blue); }
+  .sim-rec-rank {
+    width: 26px; height: 26px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.72rem; font-weight: 800; flex-shrink: 0;
+  }
+  .sim-rec-rank-1 { background: rgba(16,185,129,0.2); color: var(--accent-green); }
+  .sim-rec-rank-2 { background: rgba(99,102,241,0.15); color: var(--accent-blue); }
+  .sim-rec-rank-3 { background: rgba(255,255,255,0.06); color: var(--text-muted); }
+  .sim-rec-info { flex: 1; min-width: 0; }
+  .sim-rec-name { font-size: 0.82rem; font-weight: 700; }
+  .sim-rec-detail { font-size: 0.68rem; color: var(--text-muted); margin-top: 2px; }
+  .sim-rec-score {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem; font-weight: 700; flex-shrink: 0; text-align: right;
+  }
+  .sim-rec-score.positive { color: var(--accent-green); }
+  .sim-rec-score.neutral { color: var(--text-muted); }
+
+  /* DPS tracker */
+  .sim-dps-track {
+    display: flex; align-items: center; gap: 12px;
+    padding: 16px 18px;
+    background: linear-gradient(135deg, rgba(99,102,241,0.06), rgba(16,185,129,0.06));
+    border: 1px solid var(--border-primary);
+    border-radius: 12px;
+    min-height: 56px;
+  }
+  .sim-dps-current { font-family: 'JetBrains Mono', monospace; font-size: 1.3rem; font-weight: 800; color: var(--accent-blue); }
+  .sim-dps-arrow { color: var(--accent-green); font-weight: 700; }
+  .sim-dps-projected { font-family: 'JetBrains Mono', monospace; font-size: 1.3rem; font-weight: 800; color: var(--accent-green); }
+  .sim-dps-label { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; }
+
+  /* Turret progress bars */
+  .sim-progress { display: flex; flex-direction: column; gap: 8px; }
+  .sim-prog-row { display: flex; align-items: center; gap: 10px; min-height: 32px; }
+  .sim-prog-icon { font-size: 1rem; flex-shrink: 0; }
+  .sim-prog-name { font-size: 0.72rem; font-weight: 600; min-width: 80px; }
+  .sim-prog-bar-wrap { flex: 1; height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
+  .sim-prog-bar { height: 100%; border-radius: 4px; transition: width 0.3s; }
+  .sim-prog-label { font-size: 0.65rem; color: var(--text-muted); min-width: 60px; text-align: right; font-family: 'JetBrains Mono', monospace; }
+
+  /* Draft history */
+  .sim-history { display: flex; flex-direction: column; gap: 4px; }
+  .sim-hist-row {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 12px; border-radius: 6px; font-size: 0.72rem;
+    min-height: 36px;
+  }
+  .sim-hist-row.current { background: rgba(99,102,241,0.08); }
+  .sim-hist-round { font-weight: 700; color: var(--text-muted); min-width: 24px; }
+  .sim-hist-card { font-weight: 600; color: var(--text-primary); }
+  .sim-hist-turret { color: var(--text-muted); font-size: 0.65rem; }
+  .sim-hist-pending { color: var(--text-muted); font-style: italic; }
+
+  /* Game complete */
+  .sim-complete {
+    text-align: center; padding: 24px;
+    background: linear-gradient(135deg, rgba(16,185,129,0.08), rgba(99,102,241,0.08));
+    border: 1px solid rgba(16,185,129,0.3); border-radius: 12px;
+  }
+  .sim-complete-title { font-size: 1.1rem; font-weight: 800; color: var(--accent-green); }
+  .sim-complete-dps { font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; font-weight: 800; color: var(--accent-blue); }
+  .sim-complete-sub { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
+
+  /* Mobile sim */
+  @media (max-width: 900px) {
+    .sim-header { padding: 12px 14px; flex-wrap: wrap; gap: 8px; }
+    .sim-body { padding: 14px; }
+    .sim-rec-card { padding: 10px 12px; gap: 8px; }
+    .sim-dps-current, .sim-dps-projected { font-size: 1rem; }
+    .sim-prog-name { min-width: 60px; font-size: 0.65rem; }
+    .sim-btn-start { padding: 14px 20px; }
+  }
+
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: var(--bg-primary); }
+  ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+  /* Mobile: ensure tap targets are visible and accessible */
+  @media (max-width: 768px) {
+    /* Ensure no horizontal scroll */
+    body, html { overflow-x: hidden; }
+    
+    /* Improve touch feedback on interactive elements */
+    button, [onclick], .turret-tile, .bp-turret-tile, .cf-turret-btn { 
+      -webkit-user-select: none;
+      user-select: none;
+    }
+  }
+
+
+
+/* ============================================================ */
+/* iOS NATIVE BOTTOM TAB BAR */
+/* ============================================================ */
+.tab-bar-nav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 200;
+  background: var(--blur-bg);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border-top: 1px solid rgba(255,255,255,0.07);
+  padding-bottom: var(--safe-bottom);
+  display: flex;
+}
+.tab-bar-nav-inner {
+  display: flex; width: 100%;
+  padding: 4px 0 2px;
+}
+.nav-tab-btn {
+  flex: 1;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 3px;
+  background: none; border: none; color: var(--text-muted);
+  font-family: inherit; font-size: 10px; font-weight: 500;
+  letter-spacing: 0.01em;
+  padding: 6px 4px;
+  cursor: pointer;
+  transition: color 0.18s;
+  min-height: var(--tab-bar-height);
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+}
+.nav-tab-btn .nav-tab-icon {
+  font-size: 22px;
+  line-height: 1;
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.nav-tab-btn .nav-tab-label {
+  font-size: 10px;
+  font-weight: 500;
+  transition: color 0.18s;
+}
+.nav-tab-btn.active {
+  color: var(--accent-blue);
+}
+.nav-tab-btn.active .nav-tab-icon {
+  transform: scale(1.12) translateY(-1px);
+}
+.nav-tab-btn .nav-tab-badge {
+  position: absolute; top: 4px; right: calc(50% - 18px);
+  background: var(--accent-red);
+  color: #fff; font-size: 9px; font-weight: 700;
+  min-width: 16px; height: 16px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0 4px;
+}
+
+/* ============================================================ */
+/* PAGE TRANSITIONS (iOS swipe-style) */
+/* ============================================================ */
+.page-section {
+  display: none;
+  animation: none;
+  will-change: transform, opacity;
+}
+.page-section.active {
+  display: block;
+}
+.page-section.slide-in-right {
+  animation: slideInRight var(--page-transition) forwards;
+}
+.page-section.slide-in-left {
+  animation: slideInLeft var(--page-transition) forwards;
+}
+.page-section.slide-out-left {
+  animation: slideOutLeft var(--page-transition) forwards;
+}
+.page-section.slide-out-right {
+  animation: slideOutRight var(--page-transition) forwards;
+}
+@keyframes slideInRight {
+  from { transform: translateX(30px); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+@keyframes slideInLeft {
+  from { transform: translateX(-30px); opacity: 0; }
+  to   { transform: translateX(0);     opacity: 1; }
+}
+@keyframes slideOutLeft {
+  from { transform: translateX(0);     opacity: 1; }
+  to   { transform: translateX(-30px); opacity: 0; }
+}
+@keyframes slideOutRight {
+  from { transform: translateX(0);   opacity: 1; }
+  to   { transform: translateX(30px); opacity: 0; }
+}
+
+/* ============================================================ */
+/* INSTALL PROMPT BANNER */
+/* ============================================================ */
+.install-banner {
+  position: fixed; bottom: calc(var(--tab-bar-height) + var(--safe-bottom) + 12px);
+  left: 12px; right: 12px;
+  background: linear-gradient(135deg, rgba(99,102,241,0.95), rgba(168,85,247,0.95));
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  padding: 14px 16px;
+  display: flex; align-items: center; gap: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.1);
+  z-index: 199;
+  animation: bannerSlideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: none;
+}
+.install-banner.visible { display: flex; }
+@keyframes bannerSlideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+.install-banner-icon { font-size: 28px; flex-shrink: 0; }
+.install-banner-text { flex: 1; }
+.install-banner-title { font-size: 0.85rem; font-weight: 700; color: #fff; }
+.install-banner-sub { font-size: 0.72rem; color: rgba(255,255,255,0.75); margin-top: 2px; }
+.install-banner-btn {
+  background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3);
+  color: #fff; font-family: inherit; font-size: 0.75rem; font-weight: 700;
+  padding: 8px 14px; border-radius: 10px; cursor: pointer;
+  white-space: nowrap; flex-shrink: 0;
+}
+.install-banner-close {
+  background: none; border: none; color: rgba(255,255,255,0.6);
+  font-size: 18px; cursor: pointer; padding: 4px; flex-shrink: 0;
+}
+
+/* ============================================================ */
+/* SWIPE INDICATOR (iOS-style) */
+/* ============================================================ */
+.swipe-hint {
+  text-align: center; padding: 6px;
+  font-size: 0.65rem; color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+/* ============================================================ */
+/* TOUCH FEEDBACK */
+/* ============================================================ */
+.turret-tile:active,
+.bp-turret-tile:active,
+.cf-turret-btn:active {
+  transform: scale(0.96) !important;
+  transition: transform 0.08s ease !important;
+}
+.nav-tab-btn:active .nav-tab-icon {
+  transform: scale(0.92) !important;
+}
+
+/* ============================================================ */
+/* iOS OVERRIDES - hide desktop header elements on mobile */
+/* ============================================================ */
+@media (max-width: 768px) {
+  /* Remove the old top main-tabs bar on mobile - replaced by bottom tab bar */
+  .main-tabs { display: none; }
+
+  /* Make header compact */
+  .header-inner { height: 44px; }
+  .logo-text { font-size: 0.95rem; }
+  .logo-icon { width: 28px; height: 28px; font-size: 14px; border-radius: 8px; }
+  .search-wrap { width: 100%; max-width: 240px; }
+  .search-input { padding: 7px 12px 7px 36px; font-size: 0.8rem; }
+
+  /* Full-bleed sections */
+  .main { padding: 10px 0.85rem 1.5rem; }
+  .build-planner { padding: 12px 0.85rem 2rem; }
+  .combo-finder { padding: 12px 0.85rem 2rem; }
+
+  /* Turret grid: 3 cols on mobile */
+  .turret-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 1rem; }
+  .turret-tile { padding: 10px 6px; border-radius: 12px; }
+  .tile-icon { width: 40px; height: 40px; font-size: 1.3rem; margin-bottom: 6px; border-radius: 10px; }
+  .tile-name { font-size: 0.72rem; }
+  .tile-type { font-size: 0.58rem; }
+  .tile-card-count { font-size: 0.6rem; margin-top: 6px; }
+
+  /* Detail panel full width */
+  .detail-panel { border-radius: 14px; }
+  .detail-header { padding: 14px 0.85rem; }
+  .detail-title { font-size: 1.1rem; }
+  .tab-bar { padding: 0 0.85rem; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .tab-content { padding: 14px 0.85rem; }
+
+  /* Card rows mobile */
+  .card-row { grid-template-columns: 1fr; gap: 6px; padding: 10px 0; }
+  .card-meta { justify-content: flex-start; }
+
+  /* Build planner */
+  .bp-layout { grid-template-columns: 1fr; gap: 16px; }
+  .bp-roster { grid-template-columns: repeat(4, 1fr); gap: 7px; }
+  .bp-turret-tile { padding: 10px 6px; border-radius: 10px; }
+  .bp-tile-icon { font-size: 1.4rem; }
+  .bp-tile-name { font-size: 0.65rem; }
+  .bp-tile-type { font-size: 0.57rem; }
+  .bp-stat-body.open { grid-template-columns: 1fr 1fr; }
+  .bp-steps { top: 52px; /* below header */ }
+
+  /* Simulator mobile */
+  .sim-card-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .sim-body { padding: 12px; }
+  .sim-header { padding: 10px 12px; }
+
+  /* Combo finder */
+  .cf-roster { grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .cf-combo-card { cursor: pointer; }
+}
+
+@media (max-width: 480px) {
+  .turret-grid { grid-template-columns: repeat(3, 1fr); gap: 7px; }
+  .bp-roster { grid-template-columns: repeat(3, 1fr); }
+  .cf-roster { grid-template-columns: repeat(3, 1fr); }
+  .cf-picks { flex-direction: column; align-items: stretch; }
+  .cf-pick-slot { max-width: none; }
+  .cf-pick-vs { text-align: center; }
+  .sim-card-inputs { grid-template-columns: 1fr; }
+}
+
+/* Desktop: show top tabs, hide bottom tab bar */
+@media (min-width: 769px) {
+  .tab-bar-nav { display: none; }
+  body { padding-bottom: 0; }
+}
+
+</style>
+<body>
+
+<!-- Effect tooltip popup -->
+<div class="effect-tooltip" id="effectTooltip">
+  <div class="tooltip-name" id="tooltipName"></div>
+  <div class="tooltip-desc" id="tooltipDesc"></div>
+  <div class="tooltip-arrow"></div>
+</div>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-icon">🎯</div>
+      <span class="logo-text">Turret Card Reference</span>
+    </div>
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="text" class="search-input" id="searchInput" placeholder="Search cards, effects, turrets...">
+    </div>
+  </div>
+</div>
+
+<div class="main-tabs">
+  <div class="main-tab-inner">
+    <button class="main-tab-btn active" id="tabCardRef" onclick="switchMainTab('cardref')">📖 Card Reference</button>
+    <button class="main-tab-btn" id="tabBuildPlan" onclick="switchMainTab('buildplan')">⚔️ Build Planner</button>
+    <button class="main-tab-btn" id="tabComboFind" onclick="switchMainTab('combofind')">🔥 Combo Finder</button>
+  </div>
+</div>
+
+<div id="sectionCardRef">
+<div class="filter-bar">
+  <div class="filter-bar-inner">
+    <div class="filter-row">
+      <span class="filter-label">Card Type</span>
+      <span class="filter-badge ft-normal" data-filter="type" data-value="normal" onclick="toggleFilter(this)"><span class="dot"></span>Normal</span>
+      <span class="filter-badge ft-chain" data-filter="type" data-value="chain" onclick="toggleFilter(this)"><span class="dot"></span>Chain</span>
+      <span class="filter-badge ft-combo" data-filter="type" data-value="combo" onclick="toggleFilter(this)"><span class="dot"></span>Combo</span>
+      <span class="filter-badge ft-breakthrough" data-filter="type" data-value="breakthrough" onclick="toggleFilter(this)"><span class="dot"></span>Breakthrough</span>
+    </div>
+    <div class="filter-row">
+      <span class="filter-label">Effect</span>
+      <span class="filter-badge fe-paralyze" data-filter="effect" data-value="Paralyze" onclick="toggleFilter(this)"><span class="dot"></span>Paralyze</span>
+      <span class="filter-badge fe-disruption" data-filter="effect" data-value="Disruption" onclick="toggleFilter(this)"><span class="dot"></span>Disruption</span>
+      <span class="filter-badge fe-burn" data-filter="effect" data-value="Burn" onclick="toggleFilter(this)"><span class="dot"></span>Burn</span>
+      <span class="filter-badge fe-vulnerable" data-filter="effect" data-value="Vulnerable" onclick="toggleFilter(this)"><span class="dot"></span>Vulnerable</span>
+      <span class="filter-badge fe-slow" data-filter="effect" data-value="Slow" onclick="toggleFilter(this)"><span class="dot"></span>Slow</span>
+      <span class="filter-badge fe-physvuln" data-filter="effect" data-value="Physical Vulnerable" onclick="toggleFilter(this)"><span class="dot"></span>Phys Vuln</span>
+    </div>
+    <div class="filter-row">
+      <span class="filter-label">Tier</span>
+      <span class="filter-badge ftier-1" data-filter="tier" data-value="1" onclick="toggleFilter(this)"><span class="dot"></span>Tier 1</span>
+      <span class="filter-badge ftier-2" data-filter="tier" data-value="2" onclick="toggleFilter(this)"><span class="dot"></span>Tier 2</span>
+      <span class="filter-badge ftier-3" data-filter="tier" data-value="3" onclick="toggleFilter(this)"><span class="dot"></span>Tier 3</span>
+      <button class="filter-clear" id="clearFilters" onclick="clearAllFilters()">✕ Reset All Filters</button>
+    </div>
+  </div>
+</div>
+
+<div class="stats-bar" id="statsBar"></div>
+
+<div class="main">
+  <div class="turret-grid" id="turretGrid"></div>
+  <div class="detail-panel" id="detailPanel"></div>
+</div>
+</div><!-- end sectionCardRef -->
+
+<div id="sectionBuildPlan" style="display:none">
+<div class="build-planner">
+  <!-- Step indicator (mobile-friendly) -->
+  <div class="bp-steps" id="bpSteps">
+    <button class="bp-step active" onclick="bpScrollTo('bpStepSelect')"><span class="bp-step-num">1</span> Select</button>
+    <button class="bp-step" onclick="bpScrollTo('bpStepStats')"><span class="bp-step-num">2</span> Stats</button>
+    <button class="bp-step" onclick="bpScrollTo('bpStepStrategy')"><span class="bp-step-num">3</span> Play</button>
+  </div>
+
+  <div class="bp-layout">
+    <!-- LEFT: Turret Roster + Stat Editor -->
+    <div class="bp-left">
+      <div id="bpStepSelect">
+        <div class="bp-section-title">
+          Step 1: Select Your 5 Turrets
+          <button class="bp-clear-btn" id="bpClearBtn" onclick="bpClearBuild()" style="display:none">✕ Clear All</button>
+        </div>
+        <div class="bp-turret-count" id="bpCount">0 / 5 selected</div>
+        <div class="bp-roster" id="bpRoster"></div>
+      </div>
+
+      <div id="bpStepStats" style="margin-top:24px">
+        <div class="bp-section-title">
+          Step 2: Turret Stats <span class="bp-subtitle">(edit to update strategy)</span>
+          <div class="bp-stat-actions" id="bpStatActions" style="display:none">
+            <button class="bp-save-btn" onclick="bpSaveDefaults()">💾 Save as Default</button>
+          </div>
+        </div>
+        <div class="bp-stat-panels" id="bpStatPanels"></div>
+      </div>
+    </div>
+    <!-- RIGHT: Strategy Output -->
+    <div class="bp-right" id="bpStepStrategy">
+      <div class="bp-section-title">Step 3: Strategy & Simulate</div>
+      <div class="bp-strategy" id="bpStrategy">
+        <div class="bp-empty">Select turrets on the left to generate your strategy.</div>
+      </div>
+      <div id="simStartWrap"></div>
+      <div id="simPanel" style="display:none"></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div id="sectionComboFind" style="display:none">
+<div class="combo-finder">
+  <div class="cf-header">
+    <div class="cf-title">Select 2 Turrets to See Their Combo Cards</div>
+    <div class="cf-picks" id="cfPicks">
+      <div class="cf-pick-slot" id="cfSlot1">
+        <div class="cf-slot-empty">Pick Turret 1</div>
+      </div>
+      <div class="cf-pick-vs">VS</div>
+      <div class="cf-pick-slot" id="cfSlot2">
+        <div class="cf-slot-empty">Pick Turret 2</div>
+      </div>
+      <button class="cf-clear-btn" onclick="cfClear()">Clear</button>
+    </div>
+    <div class="cf-roster" id="cfRoster"></div>
+  </div>
+  <div class="cf-results" id="cfResults">
+    <div class="bp-empty">Pick two turrets above to see available combo cards.</div>
+  </div>
+</div>
+</div>
+
+
+<script>
+// ============================================================
+// COMBO LOOKUP
+// ============================================================
+// === PERFORMANCE UTILITIES ===
+function debounce(func, wait) {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
+
+// DOM cache for frequently accessed elements
+const domCache = {};
+function getCached(id) {
+  if (!domCache[id]) domCache[id] = document.getElementById(id);
+  return domCache[id];
+}
+
+// Debounced stat update
+const debouncedBpUpdateStat = debounce(function(turretName, key, value) {
+  bpUpdateStat(turretName, key, value);
+}, 300);
+
+const COMBOS = {
+  "Piercing Blast": [
+    "Aeroblast",
+    "Railgun"
+  ],
+  "Firewheel Summon": [
+    "Aeroblast",
+    "Firewheel Drone"
+  ],
+  "Gravity Bomb": [
+    "Aeroblast",
+    "Gravity Vortex Gun"
+  ],
+  "Shatter Impact": [
+    "Aeroblast",
+    "Laser"
+  ],
+  "Target Explosion": [
+    "Beam",
+    "Skyguard"
+  ],
+  "Disruptive Beam": [
+    "Beam",
+    "Disruption Drone"
+  ],
+  "Beam Lightning": [
+    "Beam",
+    "Thunderbolt"
+  ],
+  "Matrix Resonance": [
+    "Beam",
+    "Teslacoil"
+  ],
+  "Small Laser": [
+    "Disruption Drone",
+    "Laser"
+  ],
+  "Electric Field": [
+    "Disruption Drone",
+    "Teslacoil"
+  ],
+  "Fortress Support": [
+    "Disruption Drone",
+    "Guardian"
+  ],
+  "Field Replication": [
+    "Disruption Drone",
+    "Railgun"
+  ],
+  "Firewheel Ignition": [
+    "Firewheel Drone",
+    "Laser"
+  ],
+  "Vortex Firewheel": [
+    "Firewheel Drone",
+    "Gravity Vortex Gun"
+  ],
+  "Extra Barrage": [
+    "Firewheel Drone",
+    "Railgun"
+  ],
+  "Blazing Pulse": [
+    "Firewheel Drone",
+    "Wasp (Hive)"
+  ],
+  "Flame Bullet": [
+    "Guardian",
+    "Laser"
+  ],
+  "Electric Bullet": [
+    "Guardian",
+    "Thunderbolt"
+  ],
+  "Counterwave Scatter": [
+    "Guardian",
+    "Railgun"
+  ],
+  "Laser Shot": [
+    "Guardian",
+    "Laser"
+  ],
+  "Disruption Fire": [
+    "Guardian",
+    "Disruption Drone"
+  ],
+  "Mirror Guardian": [
+    "Guardian",
+    "Wasp (Hive)"
+  ],
+  "Energy Paralysis": [
+    "Laser",
+    "Thunderbolt"
+  ],
+  "Graviton Laser": [
+    "Laser",
+    "Gravity Vortex Gun"
+  ],
+  "Convergence Trigger": [
+    "Laser",
+    "Beam"
+  ],
+  "Energy Detonation": [
+    "Laser",
+    "Skyguard"
+  ],
+  "Field Reflection": [
+    "Gravity Vortex Gun",
+    "Skyguard"
+  ],
+  "Field Disruption": [
+    "Gravity Vortex Gun",
+    "Disruption Drone"
+  ],
+  "Double Fission": [
+    "Gravity Vortex Gun",
+    "Railgun"
+  ],
+  "Binary Stars": [
+    "Gravity Vortex Gun",
+    "Teslacoil"
+  ],
+  "Piercing Mark": [
+    "Railgun",
+    "Guardian"
+  ],
+  "Surge Pierce": [
+    "Railgun",
+    "Teslacoil"
+  ],
+  "Secondary Minefield": [
+    "Railgun",
+    "Aeroblast"
+  ],
+  "Piercing Ricochet": [
+    "Railgun",
+    "Laser"
+  ],
+  "Collapse Explosion": [
+    "Skyguard",
+    "Gravity Vortex Gun"
+  ],
+  "Detonation Thunderbolt": [
+    "Skyguard",
+    "Thunderbolt"
+  ],
+  "Path Strike": [
+    "Skyguard",
+    "Railgun"
+  ],
+  "Cooperative Beam": [
+    "Teslacoil",
+    "Beam"
+  ],
+  "Wasp Mirage": [
+    "Teslacoil",
+    "Wasp (Hive)"
+  ],
+  "Highvolt Trigger": [
+    "Teslacoil",
+    "Thunderbolt"
+  ],
+  "Spinning Laser": [
+    "Teslacoil",
+    "Laser"
+  ],
+  "Lightning Trail": [
+    "Thunderbolt",
+    "Firewheel Drone"
+  ],
+  "Lightning Teleportation": [
+    "Thunderbolt",
+    "Disruption Drone"
+  ],
+  "Electro-Wasps": [
+    "Wasp (Hive)",
+    "Teslacoil"
+  ],
+  "Aero Split": [
+    "Wasp (Hive)",
+    "Railgun"
+  ],
+  "Volley Wasp": [
+    "Wasp (Hive)",
+    "Guardian"
+  ],
+  "Swarm Fury": [
+    "Wasp (Hive)",
+    "Laser"
+  ]
+};
+
+// ============================================================
+// TURRET DATA
+// ============================================================
+const TURRETS = [
+  {
+    name: "Aeroblast", icon: "💥", type: "Explosive / AoE", accent: "#ef4444",
+    tiers: {
+      1: { cards: [
+        { name: "Powerful Blast", effect: "Shell DMG +50%" },
+        { name: "Multiple Blast", effect: "Shell +1, DMG -15%" },
+        { name: "Impact Enhancement", effect: "Shell Knockback +50%, DMG +30%" },
+        { name: "Shotgun Barrage", effect: "After firing, launches 5 penetrating Shotgun Shells", chain: "root", chainTo: ["Extra Loading (T2)", "Shotgun Penetration (T3)"] },
+        { name: "Floating Mine", effect: "Shell leaves 1 floating mine in explosion area", chain: "root", chainTo: ["Wide Minefield (T2)", "Mine Shockwave (T2 Lv14)"] },
+        { name: "Massive Explosion", effect: "Shell explosion range +70%" },
+        { name: "Central Blast", effect: "Shells deal additional high-energy explosion to center area" },
+      ]},
+      2: { cards: [
+        { name: "Extra Loading", effect: "Per enemy hit, +1 penetrating Shotgun Shell (MAX 10)", chain: "child", chainFrom: "Shotgun Barrage" },
+        { name: "Wide Minefield", effect: "Floating Mine +2, explosion DMG +25%", chain: "child", chainFrom: "Floating Mine" },
+        { name: "Mine Shockwave", effect: "Floating Mine Knockback +100%", chain: "child", chainFrom: "Floating Mine", unlock: "Lv14" },
+        { name: "Chain Explosion", effect: "Per enemy hit by explosion, +20% DMG (MAX 200%)" },
+        { name: "Range Extension", effect: "Range +70%" },
+        { name: "Secondary Explosion", effect: "Enemies hit trigger additional explosion after 1s", unlock: "Lv18" },
+        { name: "Piercing Blast", effect: "Shell Penetration +1" },
+        { name: "Firewheel Summon", effect: "Per enemy hit by explosion, generates a small Firewheel Drone" },
+      ]},
+      3: { cards: [
+        { name: "Shotgun Penetration", effect: "Penetrating Shotgun Shells: Penetration DMG +50%, Range +70%", chain: "child", chainFrom: "Shotgun Barrage" },
+        { name: "Gravity Bomb", effect: "Shell DMG +100%, pulls enemies to center before explosion" },
+        { name: "Shatter Impact", effect: "Creates two additional Ripping Lasers upon impact", unlock: "Lv22" },
+      ]},
+    },
+    chains: [
+      { name: "Shotgun Barrage Path", nodes: [
+        { name: "Shotgun Barrage", tier: 1 }, { name: "Extra Loading", tier: 2 }, { name: "Shotgun Penetration", tier: 3 }
+      ]},
+      { name: "Floating Mine Path", nodes: [
+        { name: "Floating Mine", tier: 1 }, { name: "Wide Minefield", tier: 2 }, { name: "Mine Shockwave", tier: 2, note: "Lv14" }
+      ]},
+    ]
+  },
+  {
+    name: "Beam", icon: "⚡", type: "Continuous / Single-target", accent: "#6366f1",
+    tiers: {
+      1: { cards: [
+        { name: "Beam Boost", effect: "DMG +50%" },
+        { name: "Efficient Beam", effect: "Cooldown speed +30%" },
+        { name: "Damage Increase", effect: "Increasing damage to same target (MAX 200%)", chain: "root", chainTo: ["Stacking Damage (T2)", "Extreme Focus (T3)"] },
+        { name: "High-Frequency Beam", effect: "Duration +40%" },
+        { name: "Beam Refraction", effect: "Generates refracted beams with +2 refractions on hit", chain: "root", chainTo: ["Refraction Pull (T2)", "Refraction Explosion (T3)"] },
+        { name: "DMG Multiplier", effect: "DMG interval -40%" },
+        { name: "Beam Penetration", effect: "All Beams inflict [Vulnerable]", fx: "Vulnerable" },
+      ]},
+      2: { cards: [
+        { name: "Stacking Damage", effect: "Damage continues to increase when switching targets", chain: "child", chainFrom: "Damage Increase" },
+        { name: "Refraction Pull", effect: "Refraction +2, refracted Beams pull target toward center", chain: "child", chainFrom: "Beam Refraction" },
+        { name: "Slaughtering Beam", effect: "Per enemy killed, DMG +10% (MAX 100%)" },
+        { name: "Extra Beam", effect: "Release an additional secondary Beam" },
+        { name: "Target Explosion", effect: "Each hit triggers an explosion" },
+        { name: "Disruptive Beam", effect: "Targets struck create a small disruption field", unlock: "Lv22" },
+      ]},
+      3: { cards: [
+        { name: "Extreme Focus", effect: "Damage stacking cap → 400%", chain: "child", chainFrom: "Damage Increase" },
+        { name: "Refraction Explosion", effect: "Each hit by refracted Beam causes explosion", chain: "child", chainFrom: "Beam Refraction" },
+        { name: "Beam Lightning", effect: "30% chance per hit to trigger 1 Chain Lightning" },
+        { name: "Matrix Resonance", effect: "Generates an Electric Matrix on hit", unlock: "Lv14" },
+      ]},
+    },
+    chains: [
+      { name: "Damage Increase Path", nodes: [
+        { name: "Damage Increase", tier: 1 }, { name: "Stacking Damage", tier: 2 }, { name: "Extreme Focus", tier: 3 }
+      ]},
+      { name: "Beam Refraction Path", nodes: [
+        { name: "Beam Refraction", tier: 1 }, { name: "Refraction Pull", tier: 2 }, { name: "Refraction Explosion", tier: 3 }
+      ]},
+    ]
+  },
+  {
+    name: "Disruption Drone", icon: "🌀", type: "Field / Debuff", accent: "#a855f7",
+    tiers: {
+      1: { cards: [
+        { name: "Field Amplification", effect: "Field DMG +50%" },
+        { name: "Field Duration", effect: "Field duration +30%" },
+        { name: "Field Expansion", effect: "Field DMG Range +30%" },
+        { name: "Disruption Force", effect: "Each tick inflicts 1 stack of [Disruption]", chain: "root", chainTo: ["Disruption Burst (T2)", "Overcharged Field (T2 Lv22)", "Area Disruption (T3)"], fx: "Disruption" },
+        { name: "Random Disturbance", effect: "Enemies hit have 5% chance to teleport back", chain: "root", chainTo: ["Rewind Teleport (T2)", "Teleport Damage (T3)"] },
+        { name: "Final Blast", effect: "Field causes explosion DMG when it ends" },
+        { name: "Stasis Field", effect: "Each tick adds +10% slow (MAX 90%)" },
+      ]},
+      2: { cards: [
+        { name: "Disruption Burst", effect: "At MAX [Disruption] stacks, deals high burst DMG", chain: "child", chainFrom: "Disruption Force", fx: "Disruption" },
+        { name: "Rewind Teleport", effect: "2.5% chance to teleport enemy to start point", chain: "child", chainFrom: "Random Disturbance" },
+        { name: "Overcharged Field", effect: "[Disruption] DMG +100%, max stacks → 5", chain: "child", chainFrom: "Disruption Force", unlock: "Lv22", fx: "Disruption" },
+        { name: "Quick Cooldown", effect: "DMG interval -30%, cooldown speed +30%" },
+        { name: "Field Suppression", effect: "Enemies in field take increasing additional DMG/s (MAX 200%)" },
+        { name: "Small Laser", effect: "Sweeping Laser generated in center of Drone" },
+        { name: "Electric Field", effect: "30% chance to inflict [Paralyze]", fx: "Paralyze" },
+        { name: "Slaughtering Beam", effect: "Per enemy killed by Beam, Drone DMG +10% (MAX 100%)" },
+      ]},
+      3: { cards: [
+        { name: "Area Disruption", effect: "At MAX [Disruption] stacks, deals 1 extra DMG", chain: "child", chainFrom: "Disruption Force", fx: "Disruption" },
+        { name: "Teleport Damage", effect: "Teleportation deals DMG (MAX HP as ATK, MAX HP as 6000% ATK)", chain: "child", chainFrom: "Random Disturbance" },
+        { name: "Converging Field", effect: "Drone DMG +100%, attracts enemies toward center", unlock: "Lv18" },
+        { name: "Fortress Support", effect: "Launch additional Disruption Drones above Fortress" },
+        { name: "Field Replication", effect: "When Railgun Shell hits Field first time, splits into 1 additional Railgun Shell" },
+      ]},
+    },
+    chains: [
+      { name: "Disruption Force Path", nodes: [
+        { name: "Disruption Force", tier: 1 }, { name: "Disruption Burst", tier: 2 }, { name: "Overcharged Field", tier: 2, note: "Lv22" }, { name: "Area Disruption", tier: 3 }
+      ]},
+      { name: "Random Disturbance Path", nodes: [
+        { name: "Random Disturbance", tier: 1 }, { name: "Rewind Teleport", tier: 2 }, { name: "Teleport Damage", tier: 3 }
+      ]},
+    ]
+  },
+  {
+    name: "Firewheel Drone", icon: "🔥", type: "Summon / DoT", accent: "#f97316",
+    tiers: {
+      1: { cards: [
+        { name: "Firewheel Boost", effect: "Drone DMG +50%" },
+        { name: "Size Boost", effect: "Drone size +25%" },
+        { name: "Duration Extension", effect: "Drone duration +30%" },
+        { name: "Mini Drones", effect: "Summons 2 Mini Firewheel Drones every 3s", chain: "root", chainTo: ["Killing Array (T2)", "Mini Size Boost (T3)"] },
+        { name: "Flame Trail", effect: "Leaves a Flame Trail for 2s during flight", chain: "root", chainTo: ["Blazing Trail (T2)", "Extended Trail (T3 Lv14)"] },
+        { name: "Smart Acceleration", effect: "DMG +60%, speed +80%, targets enemies" },
+        { name: "Hold the Ground", effect: "Drone stays for additional 10s after ending" },
+      ]},
+      2: { cards: [
+        { name: "Killing Array", effect: "Per 2 enemies killed, summons 2 Mini Firewheel Drones", chain: "child", chainFrom: "Mini Drones" },
+        { name: "Blazing Trail", effect: "Flame Trail DMG +60%", chain: "child", chainFrom: "Flame Trail" },
+        { name: "Killing Charge", effect: "Per 2 enemies killed, CD -0.5s (MAX 5s)" },
+        { name: "Combo Boost", effect: "Per 20 hits, DMG +20% (MAX 200%)" },
+        { name: "Firewheel Ignition", effect: "20% chance to inflict [Burn]", fx: "Burn" },
+        { name: "Vortex Firewheel", effect: "Creates a pull effect around it", unlock: "Lv18" },
+      ]},
+      3: { cards: [
+        { name: "Mini Size Boost", effect: "Mini Drone DMG +50%, duration +50%", chain: "child", chainFrom: "Mini Drones" },
+        { name: "Extended Trail", effect: "Firewheel duration +2s", chain: "child", chainFrom: "Flame Trail", unlock: "Lv14" },
+        { name: "Extra Barrage", effect: "Per 15 hits, launch 1 ring of penetrating bullets" },
+        { name: "Blazing Pulse", effect: "Releases pulse wave every 5s", unlock: "Lv22" },
+      ]},
+    },
+    chains: [
+      { name: "Mini Drones Path", nodes: [
+        { name: "Mini Drones", tier: 1 }, { name: "Killing Array", tier: 2 }, { name: "Mini Size Boost", tier: 3 }
+      ]},
+      { name: "Flame Trail Path", nodes: [
+        { name: "Flame Trail", tier: 1 }, { name: "Blazing Trail", tier: 2 }, { name: "Extended Trail", tier: 3, note: "Lv14" }
+      ]},
+    ]
+  },
+  {
+    name: "Gravity Vortex Gun", icon: "🌑", type: "Control / AoE", accent: "#8b5cf6",
+    tiers: {
+      1: { cards: [
+        { name: "High Power Field", effect: "Field DMG +50%" },
+        { name: "Wide Field", effect: "Field range +25%" },
+        { name: "Extended Field", effect: "Flight distance +30%" },
+        { name: "Static Wormhole", effect: "When Field ends, creates a portal entrance for 3s", chain: "root", chainTo: ["Wormhole Expansion (T2)", "Wormhole Enhancement (T2)"] },
+        { name: "Small Black Hole", effect: "Creates a Black Hole pulling enemies after Field disappears", chain: "root", chainTo: ["Black Hole Expansion (T2)", "Destructive Black Hole (T3 Lv14)"] },
+        { name: "Extended Pull", effect: "The further it flies, the larger the range" },
+        { name: "Field Amplification", effect: "DMG +80%, pulling force +100%" },
+      ]},
+      2: { cards: [
+        { name: "Wormhole Enhancement", effect: "Portal duration +100%", chain: "child", chainFrom: "Static Wormhole" },
+        { name: "Wormhole Expansion", effect: "Portal entry range +100%", chain: "child", chainFrom: "Static Wormhole" },
+        { name: "Black Hole Expansion", effect: "Range +50%, pulling force +50%", chain: "child", chainFrom: "Small Black Hole" },
+        { name: "Extra Field", effect: "Gravitational Field +1" },
+        { name: "Extended Range", effect: "Flight distance doubled" },
+        { name: "Field Reflection", effect: "All Fields can reflect" },
+        { name: "Field Disruption", effect: "Inflicts [Disruption] on hit", fx: "Disruption" },
+      ]},
+      3: { cards: [
+        { name: "Destructive Black Hole", effect: "Small Black Hole DMG +250%", chain: "child", chainFrom: "Small Black Hole", unlock: "Lv14" },
+        { name: "Double Fission", effect: "Field splits into two smaller Fields at end", unlock: "Lv18" },
+        { name: "Binary Stars", effect: "Field splits into spinning Binary Stars", unlock: "Lv22" },
+      ]},
+    },
+    chains: [
+      { name: "Static Wormhole Path", nodes: [
+        { name: "Static Wormhole", tier: 1 }, { name: "Wormhole Expansion", tier: 2 }, { name: "Wormhole Enhancement", tier: 2 }
+      ]},
+      { name: "Small Black Hole Path", nodes: [
+        { name: "Small Black Hole", tier: 1 }, { name: "Black Hole Expansion", tier: 2 }, { name: "Destructive Black Hole", tier: 3, note: "Lv14" }
+      ]},
+    ]
+  },
+  {
+    name: "Guardian", icon: "🛡️", type: "Bullet / Multi-hit", accent: "#10b981",
+    tiers: {
+      1: { cards: [
+        { name: "Volley Shot", effect: "Bullets +1, DMG -15%" },
+        { name: "Bullets Boost", effect: "Bullets DMG +50%" },
+        { name: "Piercing Bullet", effect: "Bullet Penetration +1" },
+        { name: "Bullet Explosion", effect: "10% chance to explode on hit", chain: "root", chainTo: ["Explosion Expansion (T2)", "Explosion Boost (T3)"] },
+        { name: "Charge Activation", effect: "Enters Charged State, gaining Charge Points by firing", chain: "root", chainTo: ["Sustained Charge (T2)", "Quick Charge (T2)"] },
+        { name: "Volley Shot +", effect: "Bullets +1" },
+        { name: "Rapid Fire", effect: "Fire rate +20%" },
+        { name: "Shotgun Evolution", effect: "Each shot scatters 2 additional sub-bullets" },
+        { name: "Splitting Bullet", effect: "Bullets split into 1 sub-bullet; 2 in Charged State" },
+        { name: "Impact Bullet", effect: "DMG +100%; weak knockback; knockback +200% in Charged State" },
+      ]},
+      2: { cards: [
+        { name: "Explosion Expansion", effect: "Explosion range +50%", chain: "child", chainFrom: "Bullet Explosion" },
+        { name: "Quick Charge", effect: "Charge Points from bullets +100%", chain: "child", chainFrom: "Charge Activation" },
+        { name: "Sustained Charge", effect: "In Charged State, shots fired +100%", chain: "child", chainFrom: "Charge Activation" },
+        { name: "Penetration Boost", effect: "All bullets penetration +2" },
+        { name: "Reflection Boost", effect: "All bullets reflection +2" },
+        { name: "Flame Bullet", effect: "Bullets become flame bullets, extra fire DMG on hit" },
+        { name: "Electric Bullet", effect: "50% chance to trigger small Lightning Strike on kill" },
+        { name: "Counterwave Scatter", effect: "After counterwave, shoots 5 penetrating shells near Fortress", unlock: "Lv101" },
+      ]},
+      3: { cards: [
+        { name: "Explosion Boost", effect: "Explosion DMG +50%, chance +10%", chain: "child", chainFrom: "Bullet Explosion" },
+        { name: "Laser Shot", effect: "20% chance to trigger Ripping Lasers; doubled in Charged State" },
+        { name: "Disruption Fire", effect: "10% chance to inflict 1 stack of [Disruption]", fx: "Disruption" },
+        { name: "Mirror Guardian", effect: "Releases a clone dealing 50% DMG", unlock: "Lv121" },
+      ]},
+    },
+    chains: [
+      { name: "Bullet Explosion Path", nodes: [
+        { name: "Bullet Explosion", tier: 1 }, { name: "Explosion Expansion", tier: 2 }, { name: "Explosion Boost", tier: 3 }
+      ]},
+      { name: "Charge Activation Path", nodes: [
+        { name: "Charge Activation", tier: 1 }, { name: "Sustained Charge", tier: 2 }, { name: "Quick Charge", tier: 2 }
+      ]},
+    ]
+  },
+  {
+    name: "Laser", icon: "🔴", type: "Sweep / AoE", accent: "#ec4899",
+    tiers: {
+      1: { cards: [
+        { name: "Laser Amplification", effect: "DMG +50%" },
+        { name: "Stable Energy", effect: "Duration +40%" },
+        { name: "Laser Reflection", effect: "Reflection +1, DMG -20% per reflection" },
+        { name: "Additional Sweep", effect: "Fires 1 additional Sweeping Laser", chain: "root", chainTo: ["Vulnerable Laser (T2)", "Sweep Boost (T3)"] },
+        { name: "Energy Surge", effect: "Fires 2 additional Deflected Lasers", chain: "root", chainTo: ["Slow Laser (T2)", "Reflected Laser (T3 Lv14)"] },
+        { name: "High-Energy Pulse", effect: "DMG Range +100%" },
+        { name: "Multi-Strike", effect: "Duration +100%, cooldown speed +20%" },
+      ]},
+      2: { cards: [
+        { name: "Vulnerable Laser", effect: "Enemies hit by Sweeping Lasers receive [Vulnerable]", chain: "child", chainFrom: "Additional Sweep", fx: "Vulnerable" },
+        { name: "Slow Laser", effect: "Enemies hit by Deflected Lasers receive [Slow]", chain: "child", chainFrom: "Energy Surge", fx: "Slow" },
+        { name: "Energy Overload", effect: "Default duration from all Lasers +100%" },
+        { name: "Tear Explosion", effect: "20% chance to trigger Ripping Lasers on hit" },
+        { name: "Energy Boost", effect: "DMG increases per enemy hit (MAX 300%)", unlock: "Lv18" },
+        { name: "Energy Paralysis", effect: "Enemies hit receive [Paralyze]", fx: "Paralyze" },
+        { name: "Graviton Laser", effect: "Creates a pull effect on nearby enemies", unlock: "Lv22" },
+      ]},
+      3: { cards: [
+        { name: "Sweep Boost", effect: "Sweeping Laser sweeps once again", chain: "child", chainFrom: "Additional Sweep" },
+        { name: "Reflected Laser", effect: "Reflections +1", chain: "child", chainFrom: "Energy Surge", unlock: "Lv14" },
+        { name: "Energy Detonation", effect: "Lasers hitting enemies with [Burn] trigger Ignition Explosion", fx: "Burn" },
+        { name: "Convergence Trigger", effect: "30% chance to generate a Refracted Beam on hit" },
+      ]},
+    },
+    chains: [
+      { name: "Additional Sweep Path", nodes: [
+        { name: "Additional Sweep", tier: 1 }, { name: "Vulnerable Laser", tier: 2 }, { name: "Sweep Boost", tier: 3 }
+      ]},
+      { name: "Energy Surge Path", nodes: [
+        { name: "Energy Surge", tier: 1 }, { name: "Slow Laser", tier: 2 }, { name: "Reflected Laser", tier: 3, note: "Lv14" }
+      ]},
+    ]
+  },
+  {
+    name: "Railgun", icon: "🔫", type: "Piercing / Single-target", accent: "#64748b",
+    tiers: {
+      1: { cards: [
+        { name: "Ammo Boost", effect: "Shell DMG +50%" },
+        { name: "Shell Salvo", effect: "Shell +1, DMG -15%" },
+        { name: "Railgun Upgrade", effect: "Shell DMG +30%, Penetration +1" },
+        { name: "Basic Split", effect: "On first hit, splits into 2 shells; 25% chance to split again", chain: "root", chainTo: ["Piercing Enhancement (T2)", "Split Mastery (T3)"] },
+        { name: "Explosive Shells", effect: "Shell explodes on hit", chain: "root", chainTo: ["Impact Spread (T2)", "Impact Boost (T2 Lv10)"] },
+        { name: "Power Penetration", effect: "Penetration +3, knockback +100%" },
+        { name: "Weak Spot Strike", effect: "DMG increases with enemy HP (MAX 150%)" },
+      ]},
+      2: { cards: [
+        { name: "Piercing Enhancement", effect: "On first hit, splits into 2 more shells; 25% chance to split again", chain: "child", chainFrom: "Basic Split" },
+        { name: "Impact Spread", effect: "Explosion range +20% per penetration", chain: "child", chainFrom: "Explosive Shells" },
+        { name: "Impact Boost", effect: "Explosion DMG +30% per penetration", chain: "child", chainFrom: "Explosive Shells", unlock: "Lv10" },
+        { name: "Shell Crit Boost", effect: "All Shells DMG +40%, Crit Rate +30%" },
+        { name: "Execution Penetration", effect: "Penetration +1 on kill (MAX +5)" },
+        { name: "Piercing Mark", effect: "Enemies hit receive [Physical Vulnerable]", fx: "Physical Vulnerable" },
+        { name: "Surge Pierce", effect: "50% chance to trigger high voltage shock on kill", unlock: "Lv22" },
+      ]},
+      3: { cards: [
+        { name: "Split Mastery", effect: "All Shells split chance +40%", chain: "child", chainFrom: "Basic Split" },
+        { name: "Secondary Minefield", effect: "Shell releases Floating Mine on hit" },
+        { name: "Piercing Ricochet", effect: "All Shells reflection +1, penetration +1", unlock: "Lv18" },
+      ]},
+    },
+    chains: [
+      { name: "Basic Split Path", nodes: [
+        { name: "Basic Split", tier: 1 }, { name: "Piercing Enhancement", tier: 2 }, { name: "Split Mastery", tier: 3 }
+      ]},
+      { name: "Explosive Shells Path", nodes: [
+        { name: "Explosive Shells", tier: 1 }, { name: "Impact Spread", tier: 2 }, { name: "Impact Boost", tier: 2, note: "Lv10" }
+      ]},
+    ]
+  },
+  {
+    name: "Skyguard", icon: "🚀", type: "Missile / AoE", accent: "#f59e0b",
+    tiers: {
+      1: { cards: [
+        { name: "Volley Missile", effect: "Missile +1, DMG -15%" },
+        { name: "Sky Guard Boost", effect: "Missile DMG +50%" },
+        { name: "Explosion Spread", effect: "Explosion range +30%" },
+        { name: "Impact Reinforcement", effect: "After hit, launches 3 Small Missiles (impact DMG only)", chain: "root", chainTo: ["Missile Amplification (T2)", "Thermal Warhead (T2 Lv22)", "Chain Reaction (T3)"] },
+        { name: "Ignition", effect: "Enemies hit receive [Burn]", chain: "root", chainTo: ["Ignition Amplification (T2)", "Death Ignition (T3)"], fx: "Burn" },
+        { name: "Burning Area", effect: "Missiles leave burning area for 5s after exploding" },
+        { name: "Impact Multiplier", effect: "All Missiles impact DMG +200%" },
+      ]},
+      2: { cards: [
+        { name: "Missile Amplification", effect: "Small Missiles +3", chain: "child", chainFrom: "Impact Reinforcement" },
+        { name: "Ignition Amplification", effect: "[Burn] DMG +100%", chain: "child", chainFrom: "Ignition", fx: "Burn" },
+        { name: "Thermal Warhead", effect: "60% chance to explode on hit", chain: "child", chainFrom: "Impact Reinforcement", unlock: "Lv22" },
+        { name: "Strong Impact", effect: "Missile +2" },
+        { name: "Close-range Explosion", effect: "After explosion, additional explosions created", unlock: "Lv14" },
+        { name: "Collapse Explosion", effect: "Creates Small Black Hole after Missile explodes" },
+      ]},
+      3: { cards: [
+        { name: "Chain Reaction", effect: "Small Missiles have 60% chance to launch additional Small Missile on hit", chain: "child", chainFrom: "Impact Reinforcement" },
+        { name: "Death Ignition", effect: "Triggers explosion when enemy dies under [Burn]", chain: "child", chainFrom: "Ignition", fx: "Burn" },
+        { name: "Fire Transmission", effect: "Missiles apply [Burn] to enemies along their path", fx: "Burn" },
+        { name: "Detonation Thunderbolt", effect: "Generates secondary small Thunderbolt for 5s after kills" },
+        { name: "Path Strike", effect: "Missiles deal DMG to enemies along their path" },
+      ]},
+    },
+    chains: [
+      { name: "Impact Reinforcement Path", nodes: [
+        { name: "Impact Reinforcement", tier: 1 }, { name: "Missile Amplification", tier: 2 }, { name: "Thermal Warhead", tier: 2, note: "Lv22" }, { name: "Chain Reaction", tier: 3 }
+      ]},
+      { name: "Ignition Path", nodes: [
+        { name: "Ignition", tier: 1 }, { name: "Ignition Amplification", tier: 2 }, { name: "Death Ignition", tier: 3 }
+      ]},
+    ]
+  },
+  {
+    name: "Teslacoil", icon: "⚙️", type: "Electric / AoE", accent: "#22d3ee",
+    tiers: {
+      1: { cards: [
+        { name: "Electro Boost", effect: "DMG +50%" },
+        { name: "Electro Chain", effect: "Bounces +1, DMG -15%" },
+        { name: "Electro Acceleration", effect: "Cooldown speed +30%" },
+        { name: "Charge Expansion", effect: "Charge time +0.5s, DMG increases with charge time", chain: "root", chainTo: ["Charge Destruction (T2)", "Charge Delayed (T3)"] },
+        { name: "Trap Matrix", effect: "Releases Electric Matrix with DMG and [Slow] for 2s", chain: "root", chainTo: ["Enhanced Matrix (T2)", "Matrix Thunderbolt (T3 Lv10)"], fx: "Slow" },
+        { name: "Electric Chain Surge", effect: "Releases up to 5 high-voltage shocks on nearby enemies" },
+        { name: "Electro Interference", effect: "Explosion and Electric Matrix inflict [Paralyze]", fx: "Paralyze" },
+      ]},
+      2: { cards: [
+        { name: "Charge Destruction", effect: "Charge time +0.5s, DMG increases with charge time", chain: "child", chainFrom: "Charge Expansion" },
+        { name: "Enhanced Matrix", effect: "Electric Matrix DMG +100%, duration +1s", chain: "child", chainFrom: "Trap Matrix" },
+        { name: "Expanded Shockwave", effect: "Explosion range increased, outer DMG radius" },
+        { name: "Charged Shock", effect: "During charging, releases high-voltage shock every 0.25s" },
+        { name: "Cooperative Beam", effect: "During charging, releases 2 Refracted Beams" },
+        { name: "Wasp Mirage", effect: "On hit, summons an Echo Wasp", unlock: "Lv22" },
+      ]},
+      3: { cards: [
+        { name: "Charge Delayed", effect: "Charge time +1s", chain: "child", chainFrom: "Charge Expansion" },
+        { name: "Matrix Thunderbolt", effect: "Spawns a Thunderbolt every 0.5s, lasting 5s", chain: "child", chainFrom: "Trap Matrix", unlock: "Lv10" },
+        { name: "Highvolt Trigger", effect: "Explosion triggers 1 Chain Lightning on hit (MAX 15)" },
+        { name: "Spinning Laser", effect: "Releases a Spinning Laser on hit", unlock: "Lv14" },
+      ]},
+    },
+    chains: [
+      { name: "Charge Expansion Path", nodes: [
+        { name: "Charge Expansion", tier: 1 }, { name: "Charge Destruction", tier: 2 }, { name: "Charge Delayed", tier: 3 }
+      ]},
+      { name: "Trap Matrix Path", nodes: [
+        { name: "Trap Matrix", tier: 1 }, { name: "Enhanced Matrix", tier: 2 }, { name: "Matrix Thunderbolt", tier: 3, note: "Lv10" }
+      ]},
+    ]
+  },
+  {
+    name: "Thunderbolt", icon: "🌩️", type: "Electric / Strike", accent: "#eab308",
+    tiers: {
+      1: { cards: [
+        { name: "Continuous Strike", effect: "+1 Thunderbolt, DMG -15%" },
+        { name: "Swift Strike", effect: "Cooldown speed +10%, DMG +30%" },
+        { name: "Lightning Boost", effect: "DMG +50%" },
+        { name: "Lightning Paralysis", effect: "Enemies hit receive [Paralyze]", chain: "root", chainTo: ["Paralysis Extension (T2)", "Paralyzing Shock (T2 Lv22)", "Life Erosion (T3)"], fx: "Paralyze" },
+        { name: "Chain Lightning", effect: "Triggers Chain Lightning on hit (MAX 5)", chain: "root", chainTo: ["Chain Expansion (T2)", "Chain Strike (T2 Lv18)", "Chain Interference (T3)"] },
+        { name: "Lightning Expansion", effect: "Width +100%" },
+        { name: "Slaughtering Lightning", effect: "60% chance to generate another Lightning Strike on kill" },
+      ]},
+      2: { cards: [
+        { name: "Paralysis Extension", effect: "[Paralyze] duration +100%", chain: "child", chainFrom: "Lightning Paralysis", fx: "Paralyze" },
+        { name: "Chain Expansion", effect: "Chain Lightning targets +4", chain: "child", chainFrom: "Chain Lightning" },
+        { name: "Paralyzing Shock", effect: "Creates lightning shock that paralyzes enemies", chain: "child", chainFrom: "Lightning Paralysis", unlock: "Lv22", fx: "Paralyze" },
+        { name: "Extra Strike", effect: "50% chance to trigger 1 more Lightning Strike" },
+        { name: "Thunder Chain", effect: "Enemies hit by Chain Lightning can't move (2s, 0.5s interval)" },
+        { name: "Chain Strike", effect: "Enemies hit by Chain Lightning have 25% chance to trigger Lightning Strike", chain: "child", chainFrom: "Chain Lightning", unlock: "Lv18" },
+        { name: "Lightning Trail", effect: "After strike, leaves a flame trail during flight" },
+      ]},
+      3: { cards: [
+        { name: "Life Erosion", effect: "Additional DMG based on MAX HP + [Paralyze] (MAX 6000% ATK)", chain: "child", chainFrom: "Lightning Paralysis", fx: "Paralyze" },
+        { name: "Chain Interference", effect: "Chain Lightning inflicts [Paralyze], DMG +100%", chain: "child", chainFrom: "Chain Lightning", fx: "Paralyze" },
+        { name: "Lightning Teleportation", effect: "50% chance to teleport enemies back on hit" },
+      ]},
+    },
+    chains: [
+      { name: "Lightning Paralysis Path", nodes: [
+        { name: "Lightning Paralysis", tier: 1 }, { name: "Paralysis Extension", tier: 2 }, { name: "Paralyzing Shock", tier: 2, note: "Lv22" }, { name: "Life Erosion", tier: 3 }
+      ]},
+      { name: "Chain Lightning Path", nodes: [
+        { name: "Chain Lightning", tier: 1 }, { name: "Chain Expansion", tier: 2 }, { name: "Chain Strike", tier: 2, note: "Lv18" }, { name: "Chain Interference", tier: 3 }
+      ]},
+    ]
+  },
+  {
+    name: "Wasp (Hive)", icon: "🐝", type: "Summon / Swarm", accent: "#84cc16",
+    tiers: {
+      1: { cards: [
+        { name: "Swarm Assault", effect: "DMG +50%" },
+        { name: "Rapid Barrage", effect: "Attack count +2" },
+        { name: "Dense Swarm", effect: "Wasps +2, DMG -15%" },
+        { name: "Contact Pulse", effect: "Releases 1 Pulse Wave on first hit", chain: "root", chainTo: ["Amplified Pulse (T2)", "Final Resonance (T2)"] },
+        { name: "Swarm Echo", effect: "Spawn 1 Echo Wasp on kill (MAX 1)", chain: "root", chainTo: ["Echo Upgrade II (T2)", "Echo Upgrade III (T3)"] },
+        { name: "Wasp Evolution II", effect: "Wasp evolves to II after 3 attacks" },
+        { name: "Hive Mutation II", effect: "Hive launches Wasp II after 2 volleys" },
+      ]},
+      2: { cards: [
+        { name: "Amplified Pulse", effect: "Pulse Wave DMG range +30%, inflicts [Slow]", chain: "child", chainFrom: "Contact Pulse", fx: "Slow" },
+        { name: "Final Resonance", effect: "Wasp releases 1 Pulse Wave when it ends", chain: "child", chainFrom: "Contact Pulse" },
+        { name: "Echo Upgrade II", effect: "Evolves echoes to Echo Wasp II", chain: "child", chainFrom: "Swarm Echo" },
+        { name: "Wasp Evolution III", effect: "Wasp II evolves to III after 3 attacks" },
+        { name: "Hive Mutation III", effect: "50% chance to launch Wasp III after 2 volleys" },
+        { name: "Wasp Retrieval", effect: "50% chance to return to Hive when destroyed (MAX 5 stored)", unlock: "Lv14" },
+        { name: "Electro-Wasps", effect: "50% chance per attack to release high-voltage shock" },
+        { name: "Aero Split", effect: "60% chance to split into 3 Small Railgun Shells on hit", unlock: "Lv22" },
+      ]},
+      3: { cards: [
+        { name: "Echo Upgrade III", effect: "Evolves echoes to Echo Wasp III", chain: "child", chainFrom: "Swarm Echo" },
+        { name: "Volley Wasp", effect: "Bullets +1" },
+        { name: "Swarm Fury", effect: "+30% DMG after each attack" },
+      ]},
+    },
+    chains: [
+      { name: "Contact Pulse Path", nodes: [
+        { name: "Contact Pulse", tier: 1 }, { name: "Amplified Pulse", tier: 2 }, { name: "Final Resonance", tier: 2 }
+      ]},
+      { name: "Swarm Echo Path", nodes: [
+        { name: "Swarm Echo", tier: 1 }, { name: "Echo Upgrade II", tier: 2 }, { name: "Echo Upgrade III", tier: 3 }
+      ]},
+    ]
+  },
+];
+
+
+
+// ============================================================
+// TURRET INDEX LOOKUP
+// ============================================================
+const TURRET_IDX = {};
+TURRETS.forEach((t, i) => { TURRET_IDX[t.name] = i; });
+
+// ============================================================
+// CARD TYPE RESOLVER & STATE
+// ============================================================
+function getCardTypes(card) {
+  const types = [];
+  if (card.chain === 'root' || card.chain === 'child') types.push('chain');
+  if (COMBOS[card.name]) types.push('combo');
+  if (card.unlock) types.push('breakthrough');
+  if (types.length === 0) types.push('normal');
+  return types;
+}
+
+// ============================================================
+// STATE
+// ============================================================
+let activeTurret = null;
+let searchQuery = '';
+let activeFilters = { type: null, effect: null, tier: null };
+
+// ============================================================
+// CHAIN MAP
+// ============================================================
+let currentChainMap = {};
+let currentCardIdMap = {};
+let currentCardEffectMap = {};
+
+function buildChainMap(t) {
+  currentChainMap = {};
+  currentCardIdMap = {};
+  currentCardEffectMap = {};
+  for (const tierNum of Object.keys(t.tiers)) {
+    t.tiers[tierNum].cards.forEach((c, idx) => {
+      currentCardIdMap[c.name] = 'card-' + tierNum + '-' + idx;
+      currentCardEffectMap[c.name] = c.effect || '';
+    });
+  }
+  for (const chain of t.chains) {
+    for (const node of chain.nodes) {
+      currentChainMap[node.name] = {
+        tier: node.tier, note: node.note || null,
+        chainName: chain.name, chainNodes: chain.nodes
+      };
+    }
+  }
+}
+
+// ============================================================
+// FILTER LOGIC
+// ============================================================
+function cardMatchesFilters(card, tierNum) {
+  const types = getCardTypes(card);
+  if (activeFilters.type && !types.includes(activeFilters.type)) return false;
+  if (activeFilters.effect) {
+    const eff = activeFilters.effect;
+    const hasFx = card.fx === eff || card.effect.toLowerCase().includes(eff.toLowerCase());
+    if (!hasFx) return false;
+  }
+  if (activeFilters.tier && String(tierNum) !== activeFilters.tier) return false;
+  return true;
+}
+
+function turretHasMatchingCards(turret) {
+  const q = searchQuery.toLowerCase();
+  for (const tierNum of Object.keys(turret.tiers)) {
+    for (const card of turret.tiers[tierNum].cards) {
+      const matchSearch = !q || turret.name.toLowerCase().includes(q) ||
+        card.name.toLowerCase().includes(q) || card.effect.toLowerCase().includes(q) ||
+        turret.type.toLowerCase().includes(q);
+      const matchFilter = cardMatchesFilters(card, tierNum);
+      if (matchSearch && matchFilter) return true;
+    }
+  }
+  return false;
+}
+
+function hasAnyFilter() {
+  return activeFilters.type || activeFilters.effect || activeFilters.tier;
+}
+
+// ============================================================
+// STATS
+// ============================================================
+function updateStats() {
+  let total = 0, shown = 0, comboCount = 0, chainCount = 0, btCount = 0;
+  TURRETS.forEach(t => {
+    Object.keys(t.tiers).forEach(tn => {
+      t.tiers[tn].cards.forEach(c => {
+        total++;
+        const types = getCardTypes(c);
+        if (types.includes('combo')) comboCount++;
+        if (types.includes('chain')) chainCount++;
+        if (types.includes('breakthrough')) btCount++;
+        const matchSearch = !searchQuery || t.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          c.name.toLowerCase().includes(searchQuery.toLowerCase()) || c.effect.toLowerCase().includes(searchQuery.toLowerCase());
+        if (matchSearch && cardMatchesFilters(c, tn)) shown++;
+      });
+    });
+  });
+  document.getElementById('statsBar').innerHTML =
+    '<div class="stat-chip"><strong>' + shown + '</strong> / ' + total + ' cards shown</div>' +
+    '<div class="stat-chip" style="color:#22d3ee"><strong>' + chainCount + '</strong> chain</div>' +
+    '<div class="stat-chip" style="color:#10b981"><strong>' + comboCount + '</strong> combo</div>' +
+    '<div class="stat-chip" style="color:#fbbf24"><strong>' + btCount + '</strong> breakthrough</div>';
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function renderGrid() {
+  const grid = document.getElementById('turretGrid');
+  grid.innerHTML = TURRETS.map((t, i) => {
+    const totalCards = Object.values(t.tiers).reduce((s, tier) => s + tier.cards.length, 0);
+    const visibleCards = hasAnyFilter()
+      ? Object.entries(t.tiers).reduce((s, [n, tier]) => s + tier.cards.filter(c => cardMatchesFilters(c, n)).length, 0)
+      : totalCards;
+    const countLabel = hasAnyFilter() ? visibleCards + '/' + totalCards + ' cards' : totalCards + ' cards';
+    const hidden = !turretHasMatchingCards(t) ? ' hidden' : '';
+    const active = activeTurret === i ? ' active' : '';
+    return '<div class="turret-tile' + hidden + active + '" style="--tile-accent:' + t.accent + '" onclick="selectTurret(' + i + ')" id="turret-tile-' + i + '">' +
+      '<div class="tile-icon" style="background:' + t.accent + '18">' + t.icon + '</div>' +
+      '<div class="tile-name">' + t.name + '</div>' +
+      '<div class="tile-type">' + t.type + '</div>' +
+      '<div class="tile-card-count">' + countLabel + '</div></div>';
+  }).join('');
+  updateStats();
+}
+
+function selectTurret(idx) {
+  if (activeTurret === idx) { closeTurret(); return; }
+  activeTurret = idx;
+  renderGrid();
+  renderDetail(TURRETS[idx]);
+  document.getElementById('detailPanel').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function closeTurret() {
+  activeTurret = null;
+  document.getElementById('detailPanel').classList.remove('open');
+  renderGrid();
+}
+
+function renderDetail(t) {
+  buildChainMap(t);
+  const panel = document.getElementById('detailPanel');
+  const tierNums = Object.keys(t.tiers);
+  const totalCards = Object.values(t.tiers).reduce((s, tier) => s + tier.cards.length, 0);
+
+  // Pre-calculate which tiers have at least one visible card
+  const tierHasVisible = {};
+  tierNums.forEach(n => {
+    tierHasVisible[n] = t.tiers[n].cards.some(c => !hasAnyFilter() || cardMatchesFilters(c, n));
+  });
+
+  // Find the first tier tab that has visible cards (fall back to '1')
+  const firstVisibleTier = tierNums.find(n => tierHasVisible[n]) || '1';
+
+  let html = '<div class="detail-header"><div class="detail-header-left">' +
+    '<div class="detail-icon" style="background:' + t.accent + '18;font-size:28px">' + t.icon + '</div>' +
+    '<div><div class="detail-title" style="color:' + t.accent + '">' + t.name + '</div>' +
+    '<div class="detail-subtitle">' + t.type + ' &middot; ' + totalCards + ' cards total</div></div></div>' +
+    '<button class="close-btn" onclick="closeTurret()">&times;</button></div><div class="tab-bar">';
+
+  tierNums.forEach(n => {
+    const visibleCount = t.tiers[n].cards.filter(c => !hasAnyFilter() || cardMatchesFilters(c, n)).length;
+    const totalCount = t.tiers[n].cards.length;
+    const isActive = n === firstVisibleTier;
+    const hiddenTab = !tierHasVisible[n] ? ' style="display:none"' : '';
+    const countLabel = hasAnyFilter() ? visibleCount + '/' + totalCount : totalCount;
+    html += '<button class="tab-btn' + (isActive ? ' active' : '') + '" data-tier="' + n + '" onclick="switchTab(this,\'tier' + n + '\')"' + hiddenTab + '>' +
+      'Tier ' + n + ' <span class="tab-count">' + countLabel + '</span></button>';
+  });
+  html += '<button class="tab-btn" data-tier="chains" onclick="switchTab(this,\'chains\')">Chains <span class="tab-count">' + t.chains.length + '</span></button></div>';
+
+  tierNums.forEach(n => {
+    const isActive = n === firstVisibleTier;
+    html += '<div class="tab-content' + (isActive ? ' active' : '') + '" id="tab-tier' + n + '"><div class="card-list">' +
+      t.tiers[n].cards.map((c, idx) => renderCardRow(c, n, idx, t.name)).join('') + '</div></div>';
+  });
+
+  html += '<div class="tab-content" id="tab-chains"><div class="chain-tree-section">' +
+    t.chains.map(ch => renderChainTree(ch)).join('') + '</div></div>';
+
+  panel.innerHTML = html;
+  panel.classList.add('open');
+}
+
+function renderCardRow(card, tierNum, cardIdx, turretName) {
+  const isRoot = card.chain === 'root';
+  const isChild = card.chain === 'child';
+  const isChain = isRoot || isChild;
+  const isCombo = !!COMBOS[card.name];
+  const types = getCardTypes(card);
+  const hidden = hasAnyFilter() && !cardMatchesFilters(card, tierNum) ? ' filter-hidden' : '';
+
+  let cls = 'card-row';
+  if (isRoot) cls += ' chain-root';
+  else if (isChild) cls += ' chain-child';
+  else if (isCombo) cls += ' combo-card';
+  cls += hidden;
+
+  const domId = 'card-' + tierNum + '-' + cardIdx;
+  let effectHtml = highlightEffects(card.effect);
+
+  // Type badges
+  let typeBadges = types.map(t => {
+    const labels = { normal: 'Normal', chain: isRoot ? 'Chain Root' : 'Chain', combo: 'Combo', breakthrough: 'Breakthrough' };
+    return '<span class="card-type-badge ctb-' + t + '">' + (labels[t] || t) + '</span>';
+  }).join(' ');
+
+  // Meta tags
+  let meta = '';
+  if (card.unlock) meta += '<span class="meta-tag tag-unlock">' + card.unlock + '</span>';
+
+  let chainIcon = '';
+  if (isRoot) chainIcon = '<span class="chain-icon">⛓</span>';
+  if (isChild) chainIcon = '<span class="chain-icon" style="background:rgba(34,211,238,0.06)">↳</span>';
+
+  // Chain path strip
+  const chainStrip = isChain ? renderChainPathStrip(card.name) : '';
+
+  // Combo strip
+  let comboStrip = '';
+  if (isCombo) {
+    const pair = COMBOS[card.name];
+    const otherTurret = pair[0] === turretName ? pair[1] : pair[0];
+    const otherIdx = TURRET_IDX[otherTurret];
+    const otherData = otherIdx !== undefined ? TURRETS[otherIdx] : null;
+    const otherIcon = otherData ? otherData.icon : '';
+    comboStrip = '<div class="combo-strip"><span class="combo-strip-label">欄 Combo</span>' +
+      '<span class="combo-turret-link" onclick="event.stopPropagation();selectTurret(' + TURRET_IDX[turretName] + ')"><span class="combo-icon">' + TURRETS[TURRET_IDX[turretName]].icon + '</span>' + turretName + '</span>' +
+      '<span class="combo-plus">+</span>' +
+      (otherIdx !== undefined ?
+        '<span class="combo-turret-link" onclick="event.stopPropagation();selectTurret(' + otherIdx + ')"><span class="combo-icon">' + otherIcon + '</span>' + otherTurret + '</span>' :
+        '<span class="combo-turret-link">' + otherTurret + '</span>') +
+      '</div>';
+  }
+
+  return '<div class="' + cls + '" id="' + domId + '">' +
+    '<div class="card-name-cell">' + chainIcon + '<span class="card-name">' + card.name + '</span> ' + typeBadges + '</div>' +
+    '<div class="card-effect">' + effectHtml + '</div>' +
+    '<div class="card-meta">' + meta + '</div>' +
+    chainStrip + comboStrip + '</div>';
+}
+
+function renderChainPathStrip(cardName) {
+  const info = currentChainMap[cardName];
+  if (!info) return '';
+  const nodes = info.chainNodes;
+  let html = '<div class="chain-path-strip"><span class="cp-label">⛓ Chain Path</span>';
+  nodes.forEach((node, i) => {
+    if (i > 0) html += '<span class="chain-path-arrow">→</span>';
+    const isCurrent = node.name === cardName;
+    const domId = currentCardIdMap[node.name];
+    const tierCls = 'cp-t' + node.tier;
+    const noteStr = node.note ? ' (' + node.note + ')' : '';
+    if (isCurrent) {
+      html += '<span class="chain-path-node ' + tierCls + ' cp-current"><strong>' + node.name + '</strong><small>T' + node.tier + noteStr + '</small></span>';
+    } else {
+      html += '<span class="chain-path-node ' + tierCls + '" onclick="navigateToCard(\'' + domId + '\',' + node.tier + ')">' + node.name + '<small>T' + node.tier + noteStr + '</small></span>';
+    }
+  });
+  html += '</div>';
+  return html;
+}
+
+function renderChainTree(chain) {
+  const tierLabel = { 1: 'Tier 1', 2: 'Tier 2', 3: 'Tier 3' };
+  let nodesHtml = chain.nodes.map((node, i) => {
+    const arrow = i > 0 ? '<span class="node-arrow">→</span>' : '';
+    const domId = currentCardIdMap[node.name] || '';
+    const rawEffect = currentCardEffectMap[node.name] || '';
+    const effectHtml = rawEffect ? '<div class="node-effect">' + highlightEffects(rawEffect) + '</div>' : '';
+    return arrow + '<div class="chain-node node-t' + node.tier + '" onclick="navigateToCard(\'' + domId + '\',' + node.tier + ')">' +
+      '<div class="node-dot"><div class="node-dot-inner"></div></div>' +
+      '<div class="node-info"><div class="node-name">' + node.name + '</div>' +
+      '<span class="node-tier">' + tierLabel[node.tier] + (node.note ? ' · ' + node.note : '') + '</span>' +
+      effectHtml + '</div></div>';
+  }).join('');
+  return '<div class="chain-tree"><div class="chain-tree-title">' + chain.name + '</div><div class="chain-nodes">' + nodesHtml + '</div></div>';
+}
+
+// ============================================================
+// UTILITIES
+// ============================================================
+// === EFFECT DESCRIPTIONS ===
+const EFFECT_DESCS = {
+  'Paralyze':           { cls: 'fx-paralyze',  desc: 'Unable to move or attack for 1.5 seconds.' },
+  'Disruption':         { cls: 'fx-disruption', desc: 'Reduces enemy DMG by 10% per stack, up to 3 stacks, for 5 seconds.' },
+  'Burn':               { cls: 'fx-burn',       desc: 'Deals burn damage over time for 5 seconds.' },
+  'Vulnerable':         { cls: 'fx-vulnerable', desc: 'Damage taken increases by 25% for 5 seconds.' },
+  'Slow':               { cls: 'fx-slow',       desc: 'Movement speed reduced by 50% for 5 seconds.' },
+  'Physical Vulnerable':{ cls: 'fx-physvuln',   desc: 'Physical resistance reduced by 25% for 5 seconds.' },
+};
+
+function pill(name) {
+  const e = EFFECT_DESCS[name];
+  return '<span class="fx-pill ' + e.cls + '" onclick="showEffectTooltip(this,\'' + name.replace(/'/g, "\\'") + '\')" data-effect="' + name + '">' + name + '</span>';
+}
+
+function highlightEffects(text) {
+  let r = text;
+  r = r.replace(/\[Physical Vulnerable\]/g, pill('Physical Vulnerable'));
+  r = r.replace(/\[Paralyze\]/g,            pill('Paralyze'));
+  r = r.replace(/\[Disruption\]/g,          pill('Disruption'));
+  r = r.replace(/\[Burn\]/g,                pill('Burn'));
+  r = r.replace(/\[Vulnerable\]/g,          pill('Vulnerable'));
+  r = r.replace(/\[Slow\]/g,                pill('Slow'));
+  return r;
+}
+
+// === TOOLTIP LOGIC ===
+let activeTooltipPill = null;
+
+function showEffectTooltip(el, effectName) {
+  // If clicking the same pill, close it
+  if (activeTooltipPill === el) {
+    hideEffectTooltip();
+    return;
+  }
+  activeTooltipPill = el;
+
+  const tooltip = document.getElementById('effectTooltip');
+  const nameEl  = document.getElementById('tooltipName');
+  const descEl  = document.getElementById('tooltipDesc');
+  const info = EFFECT_DESCS[effectName];
+  if (!info) return;
+
+  nameEl.textContent = effectName;
+  nameEl.className = 'tooltip-name ' + info.cls;
+  descEl.textContent = info.desc;
+
+  // Position: above the pill, centred
+  tooltip.classList.remove('visible');
+  tooltip.style.top = '-9999px';
+  tooltip.style.left = '-9999px';
+  tooltip.classList.add('visible');
+
+  const pillRect = el.getBoundingClientRect();
+  const tipRect  = tooltip.getBoundingClientRect();
+  const margin   = 8;
+
+  let top  = pillRect.top - tipRect.height - margin;
+  let left = pillRect.left + pillRect.width / 2 - tipRect.width / 2;
+
+  // Flip below if not enough room above
+  if (top < 8) {
+    top = pillRect.bottom + margin;
+    tooltip.querySelector('.tooltip-arrow').style.display = 'none';
+  } else {
+    tooltip.querySelector('.tooltip-arrow').style.display = 'block';
+  }
+
+  // Keep within viewport horizontally
+  left = Math.max(8, Math.min(left, window.innerWidth - tipRect.width - 8));
+
+  tooltip.style.top  = top + 'px';
+  tooltip.style.left = left + 'px';
+}
+
+function hideEffectTooltip() {
+  document.getElementById('effectTooltip').classList.remove('visible');
+  activeTooltipPill = null;
+}
+
+// Close tooltip on outside click or scroll
+document.addEventListener('click', (e) => {
+  if (!e.target.classList.contains('fx-pill')) hideEffectTooltip();
+});
+document.addEventListener('scroll', hideEffectTooltip, true);
+
+function navigateToCard(domId, tier) {
+  const panel = document.getElementById('detailPanel');
+  const tabBtn = panel.querySelector('.tab-btn[data-tier="' + tier + '"]');
+  if (tabBtn) switchTab(tabBtn, 'tier' + tier);
+  setTimeout(() => {
+    const el = document.getElementById(domId);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      el.classList.remove('highlight-flash');
+      void el.offsetWidth;
+      el.classList.add('highlight-flash');
+    }
+  }, 50);
+}
+
+function switchTab(btn, tabId) {
+  const panel = document.getElementById('detailPanel');
+  panel.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  panel.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + tabId).classList.add('active');
+}
+
+function toggleFilter(el) {
+  const filterType = el.dataset.filter;
+  const value = el.dataset.value;
+  if (activeFilters[filterType] === value) {
+    activeFilters[filterType] = null;
+    el.classList.remove('active');
+  } else {
+    document.querySelectorAll('.filter-badge[data-filter="' + filterType + '"]').forEach(b => b.classList.remove('active'));
+    activeFilters[filterType] = value;
+    el.classList.add('active');
+  }
+  document.getElementById('clearFilters').classList.toggle('has-filters', hasAnyFilter());
+  if (activeTurret !== null) renderDetail(TURRETS[activeTurret]);
+  renderGrid();
+}
+
+function clearAllFilters() {
+  activeFilters = { type: null, effect: null, tier: null };
+  document.querySelectorAll('.filter-badge').forEach(b => b.classList.remove('active'));
+  document.getElementById('clearFilters').classList.remove('has-filters');
+  closeTurret();
+  renderGrid();
+}
+
+// ============================================================
+// BUILD PLANNER DATA
+// ============================================================
+const TURRET_STATS = {
+  'Aeroblast': {
+    icon: '💥', accent: '#ef4444', type: 'Physical',
+    atkRange: 'Short', atkCount: 1,
+    dmg1: 41410, dmg1Label: 'Impact DMG', dmg2: 30440, dmg2Label: 'Explosion DMG',
+    dmgRange: 516, cooldown: 6.66, duration: 0, dmgInterval: 0,
+    critDMG: 30, typeDMG: 45, typeDMGLabel: 'Physical DMG', dmgBonus: 60,
+    ownFinalDMG: 30,
+  },
+  'Skyguard': {
+    icon: '🌤️', accent: '#f97316', type: 'Fire',
+    atkRange: 'Long', atkCount: 1,
+    dmg1: 11860, dmg1Label: 'Impact DMG', dmg2: 10140, dmg2Label: 'Explosion DMG',
+    dmgRange: 372, cooldown: 7.61, duration: 0, dmgInterval: 0,
+    critDMG: 10, typeDMG: 15, typeDMGLabel: 'Fire DMG', dmgBonus: 0,
+    ownFinalDMG: 15,
+  },
+  'Gravity Vortex Gun': {
+    icon: '🌌', accent: '#06b6d4', type: 'Force-field',
+    atkRange: 'Short', atkCount: 1,
+    dmg1: 5834, dmg1Label: 'DMG', dmg2: 0, dmg2Label: '',
+    dmgRange: 336, cooldown: 5.71, duration: 0, dmgInterval: 0,
+    critDMG: 0, typeDMG: 0, typeDMGLabel: '', dmgBonus: 0,
+    ownFinalDMG: 0,
+  },
+  'Teslacoil': {
+    icon: '⚡', accent: '#eab308', type: 'Electric',
+    atkRange: 'Medium', atkCount: 1,
+    dmg1: 34470, dmg1Label: 'Explosion DMG', dmg2: 0, dmg2Label: '',
+    dmgRange: 276, cooldown: 6, duration: 0, dmgInterval: 0,
+    critDMG: 0, typeDMG: 0, typeDMGLabel: '', dmgBonus: 0,
+    ownFinalDMG: 0,
+  },
+  'Laser': {
+    icon: '🔴', accent: '#ef4444', type: 'Energy',
+    atkRange: 'Medium', atkCount: 1,
+    dmg1: 1624, dmg1Label: 'DMG/tick', dmg2: 0, dmg2Label: '',
+    dmgRange: 0, cooldown: 5.71, duration: 2.4, dmgInterval: 0.2,
+    critDMG: 10, typeDMG: 15, typeDMGLabel: 'Energy DMG', dmgBonus: 0,
+    ownFinalDMG: 0,
+  },
+  'Hive': {
+    icon: '🐝', accent: '#f59e0b', type: 'Force-field',
+    atkRange: 'Medium', atkCount: 8,
+    dmg1: 10370, dmg1Label: 'DMG/wasp', dmg2: 0, dmg2Label: '',
+    dmgRange: 0, cooldown: 11.42, duration: 0, dmgInterval: 0,
+    critDMG: 0, typeDMG: 0, typeDMGLabel: '', dmgBonus: 0,
+    ownFinalDMG: 0,
+  },
+  'Beam': {
+    icon: '🔵', accent: '#6366f1', type: 'Energy',
+    atkRange: 'Long', atkCount: 1,
+    dmg1: 11730, dmg1Label: 'DMG/tick', dmg2: 0, dmg2Label: '',
+    dmgRange: 0, cooldown: 9.52, duration: 4.8, dmgInterval: 0.2,
+    critDMG: 10, typeDMG: 15, typeDMGLabel: 'Energy DMG', dmgBonus: 0,
+    ownFinalDMG: 20,
+  },
+  'Firewheel Drone': {
+    icon: '🔥', accent: '#f97316', type: 'Fire',
+    atkRange: 'Short', atkCount: 1,
+    dmg1: 2510, dmg1Label: 'DMG/tick', dmg2: 0, dmg2Label: '',
+    dmgRange: 250, cooldown: 10, duration: 18, dmgInterval: 0.5,
+    critDMG: 0, typeDMG: 0, typeDMGLabel: '', dmgBonus: 0,
+    ownFinalDMG: 0,
+  },
+  'Thunderbolt': {
+    icon: '🌩️', accent: '#a855f7', type: 'Electric',
+    atkRange: 'Long', atkCount: 1,
+    dmg1: 10300, dmg1Label: 'DMG', dmg2: 0, dmg2Label: '',
+    dmgRange: 1200, cooldown: 8.57, duration: 0, dmgInterval: 0,
+    critDMG: 20, typeDMG: 30, typeDMGLabel: 'Electric DMG', dmgBonus: 30,
+    ownFinalDMG: 20,
+  },
+  'Railgun': {
+    icon: '🎯', accent: '#64748b', type: 'Physical',
+    atkRange: 'Medium', penetration: 3, atkCount: 1,
+    dmg1: 14050, dmg1Label: 'DMG', dmg2: 0, dmg2Label: '',
+    dmgRange: 0, cooldown: 4, duration: 0, dmgInterval: 0,
+    critDMG: 0, typeDMG: 0, typeDMGLabel: '', dmgBonus: 0,
+    ownFinalDMG: 0,
+  },
+  'Disruption Drone': {
+    icon: '🌀', accent: '#a855f7', type: 'Force-field',
+    atkRange: 'Medium', atkCount: 1,
+    dmg1: 993, dmg1Label: 'DMG/tick', dmg2: 0, dmg2Label: '',
+    dmgRange: 0, cooldown: 9.52, duration: 6, dmgInterval: 0.5,
+    critDMG: 0, typeDMG: 0, typeDMGLabel: '', dmgBonus: 0,
+    ownFinalDMG: 0,
+  },
+  'Guardian': {
+    icon: '🛡️', accent: '#10b981', type: 'Support',
+    isSupport: true, atkRange: 'Long',
+    dmg1: 1955, dmg1Label: 'Guardian DMG', dmg2: 0, dmg2Label: '',
+    dmgRange: 0, cooldown: 0, duration: 0, dmgInterval: 0,
+    bulletBoost: 70, critBoost: 7.5, critDmgBoost: 30,
+    chargedBulletBoost: 75, chargedBulletCritBoost: 3.5, subBulletDMG: 0,
+    ownFinalDMG: 93, allTurretDMG: 40, totalCritDMG: 95,
+    critDMG: 0, typeDMG: 0, typeDMGLabel: '', dmgBonus: 0,
+  }
+};
+
+// Live stat overrides (user editable)
+let bpStatOverrides = {};
+let bpSelected = [];
+
+function getBpStats(name) {
+  const base = Object.assign({}, TURRET_STATS[name]);
+  const ov = bpStatOverrides[name] || {};
+  return Object.assign(base, ov);
+}
+
+function calcDPS(name) {
+  const s = getBpStats(name);
+  if (s.isSupport) return 0;
+  let perCycle = 0;
+  let cycleTime = 0;
+  if (s.duration > 0 && s.dmgInterval > 0) {
+    // Continuous: ticks × dmg per tick, cycle = duration + cooldown
+    const ticks = Math.floor(s.duration / s.dmgInterval);
+    perCycle = s.dmg1 * ticks + (s.dmg2 || 0);
+    cycleTime = s.duration + s.cooldown;
+  } else if (s.atkCount && s.atkCount > 1) {
+    // Multi-hit (Hive)
+    perCycle = s.dmg1 * s.atkCount + (s.dmg2 || 0);
+    cycleTime = s.cooldown;
+  } else if (s.penetration && s.penetration > 1) {
+    // Penetration: count as hitting up to penetration targets
+    perCycle = (s.dmg1 + (s.dmg2 || 0)) * Math.min(s.penetration, 2); // conservative 2x
+    cycleTime = s.cooldown;
+  } else {
+    perCycle = s.dmg1 + (s.dmg2 || 0);
+    cycleTime = s.cooldown;
+  }
+  if (cycleTime <= 0) return 0;
+  const rawDPS = perCycle / cycleTime;
+  const finalMult = 1 + (s.ownFinalDMG || 0) / 100;
+  return rawDPS * finalMult;
+}
+
+function getGuardianBoost() {
+  if (!bpSelected.includes('Guardian')) return 1;
+  const s = getBpStats('Guardian');
+  return 1 + (s.allTurretDMG || 40) / 100;
+}
+
+function effectiveDPS(name) {
+  if (TURRET_STATS[name] && TURRET_STATS[name].isSupport) return 0;
+  const raw = calcDPS(name);
+  const boost = (name !== 'Guardian') ? getGuardianBoost() : 1;
+  return raw * boost;
+}
+
+// ============================================================
+// BUILD PLANNER RENDER
+// ============================================================
+let currentMainTab = 'cardref';
+const TAB_ORDER = ['cardref', 'buildplan', 'combofind'];
+const SECTION_IDS = { cardref: 'sectionCardRef', buildplan: 'sectionBuildPlan', combofind: 'sectionComboFind' };
+const TOP_TAB_IDS = { cardref: 'tabCardRef', buildplan: 'tabBuildPlan', combofind: 'tabComboFind' };
+const NAV_TAB_IDS = { cardref: 'navCardRef', buildplan: 'navBuildPlan', combofind: 'navComboFind' };
+
+function switchMainTab(tab, skipAnimation) {
+  if (tab === currentMainTab && !skipAnimation) return;
+  var prevIdx = TAB_ORDER.indexOf(currentMainTab);
+  var nextIdx = TAB_ORDER.indexOf(tab);
+  var direction = nextIdx > prevIdx ? 'right' : 'left';
+
+  // Hide all sections
+  Object.keys(SECTION_IDS).forEach(function(key) {
+    var el = document.getElementById(SECTION_IDS[key]);
+    if (el) el.style.display = 'none';
+  });
+
+  currentMainTab = tab;
+
+  // Show target section with animation
+  var target = document.getElementById(SECTION_IDS[tab]);
+  if (target) {
+    target.style.display = '';
+    if (!skipAnimation) {
+      target.classList.remove('slide-in-right', 'slide-in-left');
+      void target.offsetWidth;
+      target.classList.add(direction === 'right' ? 'slide-in-right' : 'slide-in-left');
+    }
+  }
+
+  // Update top tabs (desktop)
+  Object.keys(TOP_TAB_IDS).forEach(function(key) {
+    var el = document.getElementById(TOP_TAB_IDS[key]);
+    if (el) el.classList.toggle('active', key === tab);
+  });
+
+  // Update bottom nav tabs (mobile)
+  Object.keys(NAV_TAB_IDS).forEach(function(key) {
+    var el = document.getElementById(NAV_TAB_IDS[key]);
+    if (el) el.classList.toggle('active', key === tab);
+  });
+
+  if (tab === 'buildplan') renderBuildPlanner();
+  if (tab === 'combofind') renderComboFinder();
+}
+
+function renderBuildPlanner() {
+  renderBpRoster();
+  renderBpStatPanels();
+  renderBpStrategy();
+  if (!simActive) renderSimStartBtn();
+}
+
+function renderBpRoster() {
+  const allNames = Object.keys(TURRET_STATS);
+  document.getElementById('bpCount').textContent = bpSelected.length + ' / 5 selected';
+  document.getElementById('bpRoster').innerHTML = allNames.map(name => {
+    const s = TURRET_STATS[name];
+    const isSel = bpSelected.includes(name);
+    const isDisabled = !isSel && bpSelected.length >= 5;
+    return '<div class="bp-turret-tile' + (isSel ? ' selected' : '') + (isDisabled ? ' disabled' : '') + '" style="--tile-accent:' + s.accent + '" onclick="bpToggleTurret(\'' + name.replace(/'/g, "\\'") + '\')">' +
+      '<div class="bp-tile-icon">' + s.icon + '</div>' +
+      '<div class="bp-tile-name">' + name + '</div>' +
+      '<div class="bp-tile-type">' + s.type + '</div>' +
+      '</div>';
+  }).join('');
+
+  // Show/hide clear and save buttons
+  const clearBtn = document.getElementById('bpClearBtn');
+  if (clearBtn) clearBtn.style.display = bpSelected.length > 0 ? '' : 'none';
+  const saveActions = document.getElementById('bpStatActions');
+  if (saveActions) saveActions.style.display = bpSelected.length > 0 ? '' : 'none';
+}
+
+function bpToggleTurret(name) {
+  if (bpSelected.includes(name)) {
+    bpSelected = bpSelected.filter(n => n !== name);
+  } else {
+    if (bpSelected.length >= 5) return;
+    bpSelected.push(name);
+  }
+  renderBuildPlanner();
+}
+
+function renderBpStatPanels() {
+  if (bpSelected.length === 0) {
+    document.getElementById('bpStatPanels').innerHTML = '<div style="color:var(--text-muted);font-size:0.8rem;padding:8px 0;">No turrets selected yet.</div>';
+    return;
+  }
+  document.getElementById('bpStatPanels').innerHTML = bpSelected.map(name => {
+    const s = getBpStats(name);
+    const dps = effectiveDPS(name);
+    const dpsLabel = s.isSupport ? ('+' + (s.allTurretDMG || 40) + '% All Turret DMG') : (formatK(dps) + ' DPS');
+    const panelId = 'bpsp-' + name.replace(/\s+/g, '_');
+    const bodyId = 'bpbody-' + name.replace(/\s+/g, '_');
+
+    let fields = '';
+    if (s.isSupport) {
+      fields += field(name, 'dmg1', 'Guardian DMG', s.dmg1 || 0);
+      fields += field(name, 'bulletBoost', 'Bullet Boost %', s.bulletBoost || 0);
+      fields += field(name, 'critBoost', 'Crit Boost %', s.critBoost || 0);
+      fields += field(name, 'critDmgBoost', 'Crit DMG Boost %', s.critDmgBoost || 0);
+      fields += field(name, 'chargedBulletBoost', 'Charged Bullet Boost %', s.chargedBulletBoost || 0);
+      fields += field(name, 'chargedBulletCritBoost', 'Charged Crit Boost %', s.chargedBulletCritBoost || 0);
+      fields += field(name, 'subBulletDMG', 'Sub-bullet DMG %', s.subBulletDMG || 0);
+      fields += field(name, 'allTurretDMG', 'All Turret DMG %', s.allTurretDMG || 0);
+      fields += field(name, 'ownFinalDMG', 'Final DMG Increase %', s.ownFinalDMG || 0);
+      fields += field(name, 'totalCritDMG', 'Total Crit DMG %', s.totalCritDMG || 0);
+      fields += '<div class="bp-guardian-note">⚡ Guardian multiplies ALL other turrets by the All Turret DMG % shown above.</div>';
+    } else {
+      fields += field(name, 'dmg1', s.dmg1Label || 'Primary DMG', s.dmg1);
+      if (s.dmg2 > 0 || s.dmg2Label) fields += field(name, 'dmg2', s.dmg2Label || 'Secondary DMG', s.dmg2);
+      if (s.dmgRange) fields += field(name, 'dmgRange', 'DMG Range', s.dmgRange);
+      fields += field(name, 'cooldown', 'Cooldown (s)', s.cooldown);
+      if (s.duration > 0) fields += field(name, 'duration', 'Duration (s)', s.duration);
+      if (s.dmgInterval > 0) fields += field(name, 'dmgInterval', 'DMG Interval (s)', s.dmgInterval);
+      if (s.atkCount > 1) fields += field(name, 'atkCount', 'ATK Count', s.atkCount);
+      if (s.penetration && s.penetration > 1) fields += field(name, 'penetration', 'Penetration', s.penetration);
+      if (s.critDMG) fields += field(name, 'critDMG', 'Crit DMG %', s.critDMG);
+      if (s.typeDMG) fields += field(name, 'typeDMG', (s.typeDMGLabel || s.type + ' DMG') + ' %', s.typeDMG);
+      if (s.dmgBonus) fields += field(name, 'dmgBonus', 'DMG Bonus %', s.dmgBonus);
+      fields += field(name, 'ownFinalDMG', 'Final DMG %', s.ownFinalDMG);
+    }
+
+    return '<div class="bp-stat-panel">' +
+      '<div class="bp-stat-header" id="' + panelId + '" onclick="bpToggleStatPanel(\'' + panelId.replace(/'/g, "\\'") + '\',\'' + bodyId.replace(/'/g, "\\'") + '\')">' +
+      '<div class="bp-stat-header-icon">' + s.icon + '</div>' +
+      '<div class="bp-stat-header-name">' + name + '</div>' +
+      '<div class="bp-stat-header-dps">' + dpsLabel + '</div>' +
+      '<div class="bp-stat-chevron">▼</div>' +
+      '</div>' +
+      '<div class="bp-stat-body" id="' + bodyId + '">' + fields + '</div>' +
+      '</div>';
+  }).join('');
+}
+
+function field(turretName, key, label, value) {
+  const id = 'f-' + turretName.replace(/\s+/g, '_') + '-' + key;
+  return '<div class="bp-field"><label for="' + id + '">' + label + '</label>' +
+    '<input type="number" inputmode="decimal" id="' + id + '" value="' + value + '" step="any" ' +
+    'oninput="bpUpdateStat(\'' + turretName.replace(/'/g, "\\'") + '\',\'' + key + '\',this.value)"></div>';
+}
+
+function bpToggleStatPanel(headerId, bodyId) {
+  const hdr = document.getElementById(headerId);
+  const body = document.getElementById(bodyId);
+  const open = body.classList.toggle('open');
+  hdr.classList.toggle('open', open);
+}
+
+function bpUpdateStat(name, key, value) {
+  if (!bpStatOverrides[name]) bpStatOverrides[name] = {};
+  bpStatOverrides[name][key] = parseFloat(value) || 0;
+  // Re-render DPS labels and strategy (not full panel to avoid losing focus)
+  bpSelected.forEach(n => {
+    const s = getBpStats(n);
+    const dps = effectiveDPS(n);
+    const dpsEl = document.querySelector('#bpsp-' + n.replace(/\s+/g, '_') + ' .bp-stat-header-dps');
+    if (dpsEl) {
+      dpsEl.textContent = s.isSupport ? ('+' + (getBpStats(n).allTurretDMG || 40) + '% All Turret DMG') : (formatK(dps) + ' DPS');
+    }
+  });
+  renderBpStrategy();
+}
+
+function formatK(val) {
+  if (val >= 1000000) return (val / 1000000).toFixed(1) + 'M';
+  if (val >= 1000) return (val / 1000).toFixed(1) + 'k';
+  return Math.round(val).toString();
+}
+
+function renderBpStrategy() {
+  const el = document.getElementById('bpStrategy');
+  if (bpSelected.length === 0) {
+    el.innerHTML = '<div class="bp-empty">Select turrets on the left to generate your strategy.</div>';
+    return;
+  }
+
+  const hasGuardian = bpSelected.includes('Guardian');
+  const guardianBoost = getGuardianBoost();
+
+  // Rank non-support turrets by effective DPS
+  const ranked = bpSelected
+    .filter(n => !TURRET_STATS[n].isSupport)
+    .map(n => ({ name: n, dps: effectiveDPS(n), s: getBpStats(n) }))
+    .sort((a, b) => b.dps - a.dps);
+
+  const maxDps = ranked[0] ? ranked[0].dps : 1;
+
+  // DPS chart
+  let dpsHtml = '';
+  ranked.forEach((r, i) => {
+    const pct = Math.max(10, Math.round((r.dps / maxDps) * 100));
+    const rankCls = 'bp-dps-rank-' + (i + 1);
+    dpsHtml += '<div class="bp-dps-row">' +
+      '<div class="bp-dps-rank ' + rankCls + '">' + (i + 1) + '</div>' +
+      '<div class="bp-dps-bar-wrap"><div class="bp-dps-bar" style="width:' + pct + '%;background:' + getBpStats(r.name).accent + '30;border-right:2px solid ' + getBpStats(r.name).accent + '">' +
+      '<span class="bp-dps-bar-name" style="color:' + getBpStats(r.name).accent + '">' + r.name + '</span></div></div>' +
+      '<div class="bp-dps-val">' + formatK(r.dps) + '/s' + (hasGuardian && r.name !== 'Guardian' ? '<br><span style="font-size:0.6rem;color:var(--text-muted)">w/ Guardian</span>' : '') + '</div>' +
+      '</div>';
+  });
+  if (hasGuardian) {
+    const gs = getBpStats('Guardian');
+    dpsHtml += '<div style="margin-top:10px;padding:8px 10px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);border-radius:8px;font-size:0.72rem;color:#34d399;">🛡️ Guardian active — all turret DPS ×' + guardianBoost.toFixed(2) + ' (+' + (gs.allTurretDMG || 40) + '% All Turret DMG)</div>';
+  }
+
+  // Card priority list
+  const priorityOrder = [];
+  if (hasGuardian) priorityOrder.push({ name: 'Guardian', reason: 'Multiplies ALL turret damage by ×' + guardianBoost.toFixed(2) + '. Always pick Guardian cards.' });
+  // Long-range first among damage dealers for early coverage
+  const longRange = ranked.filter(r => getBpStats(r.name).atkRange === 'Long');
+  const notLong = ranked.filter(r => getBpStats(r.name).atkRange !== 'Long');
+  [...longRange, ...notLong].forEach((r, i) => {
+    const s = getBpStats(r.name);
+    const rangeNote = s.atkRange === 'Long' ? ' (Long range — covers enemies early)' : s.atkRange === 'Short' ? ' (Short range — build fast, keep other coverage)' : '';
+    priorityOrder.push({ name: r.name, reason: 'Priority ' + (priorityOrder.length + 1) + rangeNote + '. Est. ' + formatK(r.dps) + '/s effective DPS.' });
+  });
+
+  let prioHtml = '<ul class="bp-priority-list">';
+  priorityOrder.forEach((p, i) => {
+    prioHtml += '<li><div class="bp-pri-num">' + (i + 1) + '</div><div class="bp-pri-text"><strong>' + p.name + '</strong> — ' + p.reason + '</div></li>';
+  });
+  prioHtml += '</ul>';
+
+  // Tips & warnings
+  let tips = '';
+  const hasLongRange = bpSelected.some(n => !TURRET_STATS[n].isSupport && getBpStats(n).atkRange === 'Long');
+  if (!hasLongRange) tips += '<div class="bp-tip bp-tip-warn">⚠️ No long-range turrets selected — enemies may reach your fortress before taking fire. Consider Beam, Thunderbolt, or Skyguard.</div>';
+  if (!hasGuardian) tips += '<div class="bp-tip bp-tip-warn">⚠️ Guardian not selected — you are missing a large global damage multiplier. Guardian boosts ALL turrets by +40% DMG.</div>';
+  const hasShortOnly = bpSelected.filter(n => !TURRET_STATS[n].isSupport).every(n => getBpStats(n).atkRange === 'Short');
+  if (hasShortOnly) tips += '<div class="bp-tip bp-tip-warn">⚠️ All turrets are Short range — enemies reach your fortress before being fired upon.</div>';
+
+  // Combo opportunities
+  const comboNames = Object.keys(COMBOS);
+  const availableCombos = comboNames.filter(c => {
+    const pair = COMBOS[c];
+    return pair.every(t => bpSelected.some(s => s.toLowerCase() === t.toLowerCase() || t.toLowerCase().includes(s.toLowerCase()) || s.toLowerCase().includes(t.toLowerCase())));
+  });
+  let combosHtml = '';
+  if (availableCombos.length > 0) {
+    combosHtml = availableCombos.map(c => '<span class="bp-combo-pill">🔥 ' + c + '</span>').join('');
+    tips += '<div class="bp-tip bp-tip-good">✅ ' + availableCombos.length + ' Combo card' + (availableCombos.length > 1 ? 's' : '') + ' unlocked by your build: ' + combosHtml + '</div>';
+  }
+
+  const shortRangers = ranked.filter(r => getBpStats(r.name).atkRange === 'Short');
+  if (shortRangers.length > 0 && hasLongRange) {
+    tips += '<div class="bp-tip bp-tip-info">💡 Prioritize Long-range turret cards early, then build ' + shortRangers.map(r => r.name).join(', ') + ' once enemies are being thinned at distance.</div>';
+  }
+
+  // Total Combined DPS
+  const totalDPS = ranked.reduce((sum, r) => sum + r.dps, 0);
+  let totalHtml = '<div class="bp-total-dps">' +
+    '<div class="bp-total-label">Estimated Combined DPS</div>' +
+    '<div class="bp-total-value">' + formatK(totalDPS) + '/s</div>' +
+    '<div class="bp-total-sub">' + ranked.length + ' damage turret' + (ranked.length !== 1 ? 's' : '') + (hasGuardian ? ' + Guardian boost' : '') + '</div>' +
+    '</div>';
+
+  // Range coverage summary
+  const rangeCount = { Short: 0, Medium: 0, Long: 0 };
+  ranked.forEach(r => { const rng = getBpStats(r.name).atkRange; if (rangeCount[rng] !== undefined) rangeCount[rng]++; });
+  let rangeHtml = '<div class="bp-range-summary">';
+  if (rangeCount.Short > 0) rangeHtml += '<span class="bp-range-badge bp-range-short">Close: ' + rangeCount.Short + '</span>';
+  if (rangeCount.Medium > 0) rangeHtml += '<span class="bp-range-badge bp-range-medium">Mid: ' + rangeCount.Medium + '</span>';
+  if (rangeCount.Long > 0) rangeHtml += '<span class="bp-range-badge bp-range-long">Long: ' + rangeCount.Long + '</span>';
+  rangeHtml += '</div>';
+
+  // Share build via URL hash
+  let shareHtml = '<div class="bp-share-bar">' +
+    '<button class="bp-share-btn" id="bpShareBtn" onclick="bpShareBuild()">📋 Copy Build Link</button>' +
+    '<button class="bp-share-btn" onclick="bpResetStats()">↩️ Reset Stats to Default</button>' +
+    '</div>';
+
+  el.innerHTML = totalHtml +
+    '<div class="bp-strat-section">' + rangeHtml + '<div class="bp-strat-label">Effective DPS Ranking' + (hasGuardian ? ' (with Guardian boost)' : '') + '</div>' + dpsHtml + '</div>' +
+    '<div class="bp-strat-section"><div class="bp-strat-label">Card Pick Priority (per card offer)</div>' + prioHtml + '</div>' +
+    (tips ? '<div class="bp-strat-section"><div class="bp-strat-label">Tips & Warnings</div>' + tips + '</div>' : '') +
+    '<div class="bp-strat-section">' + shareHtml + '</div>';
+}
+
+function bpShareBuild() {
+  const data = { sel: bpSelected, stats: bpStatOverrides };
+  const hash = '#build=' + btoa(JSON.stringify(data));
+  const url = window.location.origin + window.location.pathname + hash;
+  navigator.clipboard.writeText(url).then(() => {
+    const btn = document.getElementById('bpShareBtn');
+    btn.textContent = '✅ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '📋 Copy Build Link'; btn.classList.remove('copied'); }, 2000);
+  }).catch(() => {
+    prompt('Copy this build link:', url);
+  });
+}
+
+function bpResetStats() {
+  bpStatOverrides = {};
+  renderBpStatPanels();
+  renderBpStrategy();
+}
+
+function bpClearBuild() {
+  bpSelected = [];
+  bpStatOverrides = {};
+  if (simActive) endSim();
+  renderBuildPlanner();
+}
+
+function bpSaveDefaults() {
+  // Merge overrides into a saved-stats object in localStorage
+  const saved = {};
+  for (const name of Object.keys(TURRET_STATS)) {
+    const merged = getBpStats(name);
+    const diff = {};
+    for (const key of Object.keys(merged)) {
+      if (typeof merged[key] === 'number' && merged[key] !== TURRET_STATS[name][key]) {
+        diff[key] = merged[key];
+      }
+    }
+    if (Object.keys(diff).length > 0) saved[name] = diff;
+  }
+  try {
+    localStorage.setItem('turretStatDefaults', JSON.stringify(saved));
+    const btn = document.querySelector('.bp-save-btn');
+    if (btn) { btn.textContent = '✅ Saved!'; btn.classList.add('saved'); setTimeout(() => { btn.textContent = '💾 Save as Default'; btn.classList.remove('saved'); }, 2000); }
+  } catch(e) {}
+}
+
+function bpLoadSavedDefaults() {
+  try {
+    const raw = localStorage.getItem('turretStatDefaults');
+    if (raw) {
+      const saved = JSON.parse(raw);
+      bpStatOverrides = saved;
+    }
+  } catch(e) {}
+}
+
+function bpScrollTo(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // Update step indicators
+  const steps = document.querySelectorAll('.bp-step');
+  steps.forEach(s => s.classList.remove('active'));
+  if (id === 'bpStepSelect') steps[0].classList.add('active');
+  else if (id === 'bpStepStats') steps[1].classList.add('active');
+  else if (id === 'bpStepStrategy') steps[2].classList.add('active');
+}
+
+// Load build from URL hash on page load
+function loadBuildFromHash() {
+  try {
+    const hash = window.location.hash;
+    if (hash.startsWith('#build=')) {
+      const data = JSON.parse(atob(hash.substring(7)));
+      if (data.sel && Array.isArray(data.sel)) {
+        bpSelected = data.sel.slice(0, 5);
+        bpStatOverrides = data.stats || {};
+        switchMainTab('buildplan');
+      }
+    }
+  } catch (e) { /* ignore bad hashes */ }
+}
+
+// ============================================================
+// COMBO FINDER
+// ============================================================
+let cfSelected = []; // max 2 turret names
+
+function renderComboFinder() {
+  renderCfRoster();
+  renderCfSlots();
+  renderCfResults();
+}
+
+function renderCfRoster() {
+  const allNames = Object.keys(TURRET_STATS);
+  document.getElementById('cfRoster').innerHTML = allNames.map(name => {
+    const s = TURRET_STATS[name];
+    const isSel = cfSelected.includes(name);
+    const isDisabled = !isSel && cfSelected.length >= 2;
+    return '<button class="cf-turret-btn' + (isSel ? ' selected' : '') + (isDisabled ? ' disabled' : '') + '" style="--tile-accent:' + s.accent + '" onclick="cfToggle(\'' + name.replace(/'/g, "\\'") + '\')">' +
+      '<div class="cf-btn-icon">' + s.icon + '</div>' +
+      '<div class="cf-btn-name">' + name + '</div>' +
+      '</button>';
+  }).join('');
+}
+
+function cfToggle(name) {
+  if (cfSelected.includes(name)) {
+    cfSelected = cfSelected.filter(n => n !== name);
+  } else {
+    if (cfSelected.length >= 2) return;
+    cfSelected.push(name);
+  }
+  renderComboFinder();
+}
+
+function cfClear() {
+  cfSelected = [];
+  renderComboFinder();
+}
+
+function renderCfSlots() {
+  for (let i = 0; i < 2; i++) {
+    const slot = document.getElementById('cfSlot' + (i + 1));
+    const name = cfSelected[i];
+    if (name) {
+      const s = TURRET_STATS[name];
+      slot.className = 'cf-pick-slot filled';
+      slot.style.setProperty('--slot-accent', s.accent);
+      slot.innerHTML = '<div class="cf-slot-icon">' + s.icon + '</div>' +
+        '<div class="cf-slot-name">' + name + '</div>' +
+        '<div class="cf-slot-type">' + s.type + '</div>';
+    } else {
+      slot.className = 'cf-pick-slot';
+      slot.style.removeProperty('--slot-accent');
+      slot.innerHTML = '<div class="cf-slot-empty">Pick Turret ' + (i + 1) + '</div>';
+    }
+  }
+}
+
+function renderCfResults() {
+  const el = document.getElementById('cfResults');
+  if (cfSelected.length < 2) {
+    el.innerHTML = '<div class="bp-empty">Pick two turrets above to see available combo cards.</div>';
+    return;
+  }
+
+  const t1 = cfSelected[0];
+  const t2 = cfSelected[1];
+
+  // Find combos involving BOTH selected turrets
+  const matchedCombos = [];
+  for (const [comboName, pair] of Object.entries(COMBOS)) {
+    const pairLower = pair.map(p => p.toLowerCase());
+    const selLower = [t1.toLowerCase(), t2.toLowerCase()];
+    const match = pairLower.every(p => selLower.some(s => p.includes(s) || s.includes(p))) ||
+                  selLower.every(s => pairLower.some(p => p.includes(s) || s.includes(p)));
+    if (match) matchedCombos.push({ name: comboName, pair: pair });
+  }
+
+  if (matchedCombos.length === 0) {
+    el.innerHTML = '<div class="cf-no-combos">No combo cards found between <strong>' + t1 + '</strong> and <strong>' + t2 + '</strong>.</div>';
+    return;
+  }
+
+  // Find the actual card data from TURRETS to get descriptions and tiers
+  let html = '<div class="cf-combo-count">' + matchedCombos.length + ' combo card' + (matchedCombos.length > 1 ? 's' : '') + ' found</div>';
+
+  matchedCombos.forEach(combo => {
+    // Search TURRETS for this combo card to get its tier and effect
+    let cardInfo = null;
+    let foundInTurret = '';
+    for (const turret of TURRETS) {
+      for (const [tierNum, tier] of Object.entries(turret.tiers)) {
+        for (const card of tier.cards) {
+          if (card.name === combo.name) {
+            cardInfo = { card: card, tier: tierNum };
+            foundInTurret = turret.name;
+            break;
+          }
+        }
+        if (cardInfo) break;
+      }
+      if (cardInfo) break;
+    }
+
+    const effect = cardInfo ? highlightEffects(cardInfo.card.effect) : 'Effect details in card reference';
+    const tierBadge = cardInfo ? '<span class="cf-combo-tier cf-combo-tier-' + cardInfo.tier + '">Tier ' + cardInfo.tier + '</span>' : '';
+    const turretNote = foundInTurret ? ' (found in ' + foundInTurret + ')' : '';
+
+    html += '<div class="cf-combo-card">' +
+      '<div class="cf-combo-name">' + combo.name + '</div>' +
+      '<div class="cf-combo-turrets"><span>' + combo.pair[0] + '</span> + <span>' + combo.pair[1] + '</span>' + turretNote + '</div>' +
+      tierBadge +
+      '<div class="cf-combo-effect">' + effect + '</div>' +
+      '</div>';
+  });
+
+  // Also find combos where each turret pairs with ANY other turret (bonus section)
+  const allCombosT1 = [];
+  const allCombosT2 = [];
+  for (const [comboName, pair] of Object.entries(COMBOS)) {
+    const pairLower = pair.map(p => p.toLowerCase());
+    if (pairLower.some(p => p.includes(t1.toLowerCase()) || t1.toLowerCase().includes(p))) {
+      const partner = pair.find(p => !p.toLowerCase().includes(t1.toLowerCase()) && !t1.toLowerCase().includes(p.toLowerCase())) || pair[1];
+      if (!matchedCombos.some(m => m.name === comboName)) {
+        allCombosT1.push({ name: comboName, partner: partner });
+      }
+    }
+    if (pairLower.some(p => p.includes(t2.toLowerCase()) || t2.toLowerCase().includes(p))) {
+      const partner = pair.find(p => !p.toLowerCase().includes(t2.toLowerCase()) && !t2.toLowerCase().includes(p.toLowerCase())) || pair[0];
+      if (!matchedCombos.some(m => m.name === comboName)) {
+        allCombosT2.push({ name: comboName, partner: partner });
+      }
+    }
+  }
+
+  if (allCombosT1.length > 0 || allCombosT2.length > 0) {
+    html += '<div style="margin-top:24px;padding:16px 18px;background:var(--bg-card);border:1px solid var(--border-primary);border-radius:12px;">';
+    html += '<div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:12px;">Other combos for selected turrets</div>';
+    if (allCombosT1.length > 0) {
+      html += '<div style="margin-bottom:10px;"><strong style="color:var(--text-primary);font-size:0.8rem;">' + t1 + '</strong> <span style="font-size:0.7rem;color:var(--text-muted)">(' + allCombosT1.length + ' more)</span><br>';
+      html += allCombosT1.map(c => '<span class="bp-combo-pill" style="margin-top:6px;">' + c.name + ' <span style="opacity:0.7;font-size:0.65rem">w/ ' + c.partner + '</span></span>').join('');
+      html += '</div>';
+    }
+    if (allCombosT2.length > 0) {
+      html += '<div><strong style="color:var(--text-primary);font-size:0.8rem;">' + t2 + '</strong> <span style="font-size:0.7rem;color:var(--text-muted)">(' + allCombosT2.length + ' more)</span><br>';
+      html += allCombosT2.map(c => '<span class="bp-combo-pill" style="margin-top:6px;">' + c.name + ' <span style="opacity:0.7;font-size:0.65rem">w/ ' + c.partner + '</span></span>').join('');
+      html += '</div>';
+    }
+    html += '</div>';
+  }
+
+  el.innerHTML = html;
+}
+
+// ============================================================
+// GAME SIMULATOR — Round-by-Round Draft Coach
+// ============================================================
+let simActive = false;
+let simRound = 0;
+const SIM_MAX_ROUNDS = 30;
+const SLOTS_PER_TIER = 4;
+let simRounds = [];       // Array of { picks: [...], offered: [...] } per round
+let simPickedCards = {};
+let simTierProgress = {};
+let simOffered = [null, null, null, null, null, null];
+let simSelectedIdxs = new Set();  // Multi-select: set of scored-rank indices
+
+function getTurretForCard(cardName) {
+  for (const turret of TURRETS) {
+    if (!bpSelected.includes(turret.name)) continue;
+    for (const tierNum of Object.keys(turret.tiers)) {
+      for (const card of turret.tiers[tierNum].cards) {
+        if (card.name === cardName) return { turret: turret, tierNum: parseInt(tierNum), card: card };
+      }
+    }
+  }
+  return null;
+}
+
+function getSimCardPool() {
+  const pool = [];
+  for (const turret of TURRETS) {
+    if (!bpSelected.includes(turret.name)) continue;
+    const picked = simPickedCards[turret.name] || new Set();
+    const tierProg = simTierProgress[turret.name] || {1:0, 2:0, 3:0};
+    for (const tierNum of Object.keys(turret.tiers)) {
+      const tn = parseInt(tierNum);
+      // Tier unlock check: tier N requires tier N-1 to have SLOTS_PER_TIER cards
+      if (tn > 1 && (tierProg[tn - 1] || 0) < SLOTS_PER_TIER) continue;
+      // Slot check: can't exceed SLOTS_PER_TIER per tier
+      if ((tierProg[tn] || 0) >= SLOTS_PER_TIER) continue;
+      for (const card of turret.tiers[tierNum].cards) {
+        // Chain children require root to be picked
+        if (card.chain === 'child') {
+          const rootPicked = picked.has(card.chainFrom);
+          if (!rootPicked) continue;
+        }
+        // One-time cards already picked
+        if ((card.chain || card.unlock) && picked.has(card.name)) continue;
+        pool.push({ name: card.name, effect: card.effect, turretName: turret.name, tierNum: tn, card: card });
+      }
+    }
+  }
+  return pool;
+}
+
+function scoreCard(entry) {
+  const { name, turretName, tierNum, card } = entry;
+  let score = 0;
+
+  // 1. Turret DPS weight (0-40 pts)
+  const allDPS = bpSelected.filter(n => !TURRET_STATS[n].isSupport).map(n => effectiveDPS(n));
+  const maxDPS = Math.max(...allDPS, 1);
+  const turretDPS = TURRET_STATS[turretName].isSupport ? maxDPS : effectiveDPS(turretName);
+  score += (turretDPS / maxDPS) * 40;
+
+  // 2. Card type bonus (0-25 pts)
+  const isGuardian = turretName === 'Guardian' || (TURRET_STATS[turretName] && TURRET_STATS[turretName].isSupport);
+  if (isGuardian) score += 25;
+  else if (card.chain === 'root') score += 20;
+  else if (card.unlock) score += 18;
+  else if (card.chain === 'child') score += 16;
+  else score += 10;
+
+  // 3. Tier value (0-20 pts)
+  score += tierNum === 3 ? 20 : tierNum === 2 ? 14 : 8;
+
+  // 4. Effect keyword parsing (0-15 pts)
+  const eff = card.effect.toLowerCase();
+  let effScore = 0;
+  const dmgMatch = eff.match(/dmg\s*\+(\d+)%/);
+  if (dmgMatch) effScore += Math.min(15, parseInt(dmgMatch[1]) / 10);
+  if (eff.includes('cooldown')) effScore += 8;
+  if (eff.includes('duration')) effScore += 5;
+  if (eff.includes('penetration')) effScore += 6;
+  if (eff.includes('paralyze') || eff.includes('burn') || eff.includes('slow')) effScore += 4;
+  if (eff.includes('vulnerable')) effScore += 5;
+  if (eff.includes('disruption')) effScore += 3;
+  if (eff.includes('explosion')) effScore += 4;
+  score += Math.min(15, effScore);
+
+  return Math.round(score);
+}
+
+function initSim() {
+  simActive = true;
+  simRound = 0;
+  simRounds = [];
+  simPickedCards = {};
+  simTierProgress = {};
+  simOffered = [null, null, null, null, null, null];
+  simSelectedIdxs = new Set();
+  bpSelected.forEach(name => {
+    simPickedCards[name] = new Set();
+    simTierProgress[name] = {1: 0, 2: 0, 3: 0};
+  });
+  renderSimPanel();
+}
+
+function endSim() {
+  simActive = false;
+  document.getElementById('simPanel').style.display = 'none';
+  renderSimStartBtn();
+}
+
+function simUndo() {
+  if (simRounds.length === 0) return;
+  var last = simRounds.pop();
+  simRound--;
+  // Undo all picks from this round
+  var picks = last.picks || [];
+  picks.forEach(function(p) {
+    if (p.turretName && simPickedCards[p.turretName]) {
+      simPickedCards[p.turretName].delete(p.pickedName);
+      var tn = p.tierNum || 1;
+      simTierProgress[p.turretName][tn] = Math.max(0, (simTierProgress[p.turretName][tn] || 0) - 1);
+    }
+  });
+  simOffered = [null, null, null, null, null, null];
+  simSelectedIdxs = new Set();
+  renderSimPanel();
+}
+
+function simSearchCards(query, inputIdx) {
+  const pool = getSimCardPool();
+  const q = query.toLowerCase().trim();
+  if (!q) {
+    // Show all available cards (limited to 20)
+    return pool.slice(0, 20);
+  }
+  return pool.filter(c =>
+    c.name.toLowerCase().includes(q) ||
+    c.turretName.toLowerCase().includes(q) ||
+    c.effect.toLowerCase().includes(q)
+  ).slice(0, 15);
+}
+
+function simSelectOffered(name, inputIdx) {
+  const found = getTurretForCard(name);
+  if (found) {
+    simOffered[inputIdx] = { name: found.card.name, effect: found.card.effect, turretName: found.turret.name, tierNum: parseInt(found.tierNum), card: found.card };
+  }
+  // Close dropdown
+  document.querySelectorAll('.sim-dropdown').forEach(d => d.classList.remove('open'));
+  renderSimPanel();
+}
+
+function simClickRec(idx) {
+  // Toggle multi-select
+  if (simSelectedIdxs.has(idx)) {
+    simSelectedIdxs.delete(idx);
+  } else {
+    simSelectedIdxs.add(idx);
+  }
+  renderSimPanel();
+}
+
+function simConfirmPick() {
+  var validOffered = simOffered.filter(function(o) { return o !== null; });
+  if (validOffered.length === 0) return;
+
+  // Score and sort
+  var scored = validOffered.map(function(o, i) { return Object.assign({}, o, { score: scoreCard(o), origIdx: i }); }).sort(function(a, b) { return b.score - a.score; });
+
+  // Determine which cards are selected
+  var toPick = [];
+  if (simSelectedIdxs.size > 0) {
+    simSelectedIdxs.forEach(function(idx) {
+      if (scored[idx]) toPick.push(scored[idx]);
+    });
+  } else {
+    // Default: pick the top recommended card
+    toPick.push(scored[0]);
+  }
+
+  if (toPick.length === 0) return;
+
+  // Record all picks for this round
+  var roundPicks = [];
+  toPick.forEach(function(picked) {
+    simPickedCards[picked.turretName].add(picked.name);
+    simTierProgress[picked.turretName][picked.tierNum] = (simTierProgress[picked.turretName][picked.tierNum] || 0) + 1;
+    roundPicks.push({ picked: picked.card, turretName: picked.turretName, tierNum: picked.tierNum, pickedName: picked.name });
+  });
+
+  simRounds.push({ offered: simOffered.slice(), picks: roundPicks });
+  simRound++;
+  simOffered = [null, null, null, null, null, null];
+  simSelectedIdxs = new Set();
+  renderSimPanel();
+}
+
+function getSimTotalDPS() {
+  // Base team DPS from existing calculation
+  return bpSelected.filter(n => !TURRET_STATS[n].isSupport).reduce((sum, n) => sum + effectiveDPS(n), 0);
+}
+
+function renderSimStartBtn() {
+  const wrap = document.getElementById('simStartWrap');
+  if (!wrap) return;
+  if (bpSelected.length < 5 || simActive) {
+    wrap.innerHTML = '';
+    return;
+  }
+  wrap.innerHTML = '<button class="sim-btn-start" onclick="initSim()">⚔️ Start Game Simulator</button>';
+}
+
+function renderSimPanel() {
+  const panel = document.getElementById('simPanel');
+  if (!simActive) { panel.style.display = 'none'; return; }
+  panel.style.display = '';
+  document.getElementById('simStartWrap').innerHTML = '';
+
+  const gameComplete = simRound >= SIM_MAX_ROUNDS;
+
+  let html = '<div class="sim-panel">';
+
+  // Header
+  html += '<div class="sim-header"><div class="sim-header-left">';
+  html += '<div class="sim-round-label">⚔️ Round ' + (gameComplete ? simRound : simRound + 1) + '</div>';
+  html += '<div class="sim-round-sub">' + simRounds.length + ' cards picked</div>';
+  html += '</div><div class="sim-header-btns">';
+  if (simRounds.length > 0) html += '<button class="sim-btn" onclick="simUndo()">↩ Undo</button>';
+  html += '<button class="sim-btn sim-btn-danger" onclick="endSim()">✕ End Sim</button>';
+  html += '</div></div>';
+
+  html += '<div class="sim-body">';
+
+  if (gameComplete) {
+    // Game complete summary
+    const totalDPS = getSimTotalDPS();
+    html += '<div class="sim-complete">';
+    html += '<div class="sim-complete-title">🏆 Game Complete!</div>';
+    html += '<div class="sim-complete-dps">' + formatK(totalDPS) + '/s</div>';
+    html += '<div class="sim-complete-sub">Final estimated team DPS after ' + simRounds.length + ' picks</div>';
+    html += '</div>';
+  } else {
+    // Card input section
+    html += '<div class="sim-section"><div class="sim-section-label">Offered Cards (enter up to 6 cards shown)</div>';
+    html += '<div class="sim-card-inputs">';
+    for (let i = 0; i < 6; i++) {
+      const offered = simOffered[i];
+      const filledCls = offered ? ' filled' : '';
+      const val = offered ? offered.name : '';
+      html += '<div class="sim-card-input-wrap">';
+      html += '<span class="sim-input-num">' + (i + 1) + '</span>';
+      html += '<input class="sim-card-input' + filledCls + '" type="text" placeholder="Type card name..." value="' + val.replace(/"/g, '&quot;') + '" onfocus="simShowDropdown(' + i + ')" oninput="simOnInput(this,' + i + ')" data-idx="' + i + '">';
+      html += '<div class="sim-dropdown" id="simDrop' + i + '"></div>';
+      html += '</div>';
+    }
+    html += '</div></div>';
+
+    // Recommendation section (multi-select)
+    var validOffered = simOffered.filter(function(o) { return o !== null; });
+    if (validOffered.length > 0) {
+      var scored = validOffered.map(function(o, i) { return Object.assign({}, o, { score: scoreCard(o), origIdx: i }); }).sort(function(a, b) { return b.score - a.score; });
+      html += '<div class="sim-section"><div class="sim-section-label">Tap cards to select (multiple allowed)</div>';
+      html += '<div class="sim-rec">';
+      scored.forEach(function(s, rank) {
+        var isBest = rank === 0;
+        var isSelected = simSelectedIdxs.has(rank);
+        var turretIcon = (TURRET_STATS[s.turretName] || {}).icon || '';
+        var checkIcon = isSelected ? '☑' : '☐';
+        html += '<div class="sim-rec-card' + (isBest && !simSelectedIdxs.size ? ' best' : '') + (isSelected ? ' selected' : '') + '" onclick="simClickRec(' + rank + ')">';
+        html += '<div class="sim-rec-rank sim-rec-rank-' + Math.min(rank + 1, 3) + '" style="font-size:0.85rem">' + checkIcon + '</div>';
+        html += '<div class="sim-rec-info"><div class="sim-rec-name">' + turretIcon + ' ' + s.name + '</div>';
+        html += '<div class="sim-rec-detail">' + s.turretName + ' · T' + s.tierNum + '</div></div>';
+        html += '<div class="sim-rec-score positive">' + s.score + '</div>';
+        html += '</div>';
+      });
+      html += '</div></div>';
+
+      // Confirm button — shows count of selected cards
+      var pickCount = simSelectedIdxs.size || 1;
+      var pickLabel = pickCount > 1 ? 'Confirm ' + pickCount + ' Picks' : 'Confirm Pick';
+      if (simSelectedIdxs.size === 0) pickLabel += ': ' + scored[0].name;
+      html += '<button class="sim-btn-confirm" onclick="simConfirmPick()" style="width:100%;margin-bottom:16px;">\u2713 ' + pickLabel + '</button>';
+    }
+  }
+
+  // DPS tracker
+  const totalDPS = getSimTotalDPS();
+  html += '<div class="sim-section">';
+  html += '<div class="sim-dps-track">';
+  html += '<div><div class="sim-dps-label">Team DPS</div><div class="sim-dps-current">' + formatK(totalDPS) + '/s</div></div>';
+  html += '</div></div>';
+
+  // Turret progress
+  html += '<div class="sim-section"><div class="sim-section-label">Turret Tier Progress</div>';
+  html += '<div class="sim-progress">';
+  bpSelected.forEach(name => {
+    const s = TURRET_STATS[name] || {};
+    const prog = simTierProgress[name] || {1:0, 2:0, 3:0};
+    const totalSlots = SLOTS_PER_TIER * 3;
+    const filledSlots = (prog[1] || 0) + (prog[2] || 0) + (prog[3] || 0);
+    const pct = Math.round((filledSlots / totalSlots) * 100);
+    const currentTier = (prog[1] || 0) >= SLOTS_PER_TIER ? ((prog[2] || 0) >= SLOTS_PER_TIER ? 3 : 2) : 1;
+    const currentSlots = prog[currentTier] || 0;
+    html += '<div class="sim-prog-row">';
+    html += '<div class="sim-prog-icon">' + (s.icon || '?') + '</div>';
+    html += '<div class="sim-prog-name">' + name + '</div>';
+    html += '<div class="sim-prog-bar-wrap"><div class="sim-prog-bar" style="width:' + pct + '%;background:' + (s.accent || '#6366f1') + '"></div></div>';
+    html += '<div class="sim-prog-label">T' + currentTier + ': ' + currentSlots + '/' + SLOTS_PER_TIER + '</div>';
+    html += '</div>';
+  });
+  html += '</div></div>';
+
+  // Draft history (supports multiple picks per round)
+  if (simRounds.length > 0) {
+    html += '<div class="sim-section"><div class="sim-section-label">Draft History</div>';
+    html += '<div class="sim-history">';
+    simRounds.forEach(function(r, i) {
+      var picks = r.picks || [];
+      picks.forEach(function(p, j) {
+        var turretIcon = (TURRET_STATS[p.turretName] || {}).icon || '';
+        html += '<div class="sim-hist-row"><span class="sim-hist-round">' + (j === 0 ? 'R' + (i + 1) : '') + '</span>';
+        html += '<span class="sim-hist-card">' + turretIcon + ' ' + p.pickedName + '</span>';
+        html += '<span class="sim-hist-turret">' + p.turretName + ' · T' + p.tierNum + '</span></div>';
+      });
+    });
+    if (!gameComplete) {
+      html += '<div class="sim-hist-row current"><span class="sim-hist-round">R' + (simRound + 1) + '</span><span class="sim-hist-pending">picking...</span></div>';
+    }
+    html += '</div></div>';
+  }
+
+  html += '</div></div>';
+  panel.innerHTML = html;
+}
+
+function simShowDropdown(idx) {
+  const results = simSearchCards('', idx);
+  renderSimDropdown(idx, results);
+}
+
+function simOnInput(input, idx) {
+  const query = input.value;
+  // Clear the offered slot if user edits
+  simOffered[idx] = null;
+  input.classList.remove('filled');
+  const results = simSearchCards(query, idx);
+  renderSimDropdown(idx, results);
+}
+
+function renderSimDropdown(idx, results) {
+  const drop = document.getElementById('simDrop' + idx);
+  if (!drop) return;
+  if (results.length === 0) {
+    drop.classList.remove('open');
+    return;
+  }
+  const pickedNames = new Set();
+  simRounds.forEach(r => { if (r.pickedName) pickedNames.add(r.pickedName); });
+  // Also mark currently offered cards in other slots
+  simOffered.forEach((o, i) => { if (o && i !== idx) pickedNames.add(o.name); });
+
+  let html = '';
+  results.forEach(r => {
+    const s = TURRET_STATS[r.turretName] || {};
+    const isPicked = pickedNames.has(r.name) || (simPickedCards[r.turretName] && simPickedCards[r.turretName].has(r.name));
+    html += '<div class="sim-dropdown-item' + (isPicked ? ' picked' : '') + '" onmousedown="simSelectOffered(\'' + r.name.replace(/'/g, "\\'") + '\',' + idx + ')">';
+    html += '<span class="sim-dd-icon">' + (s.icon || '') + '</span>';
+    html += '<span class="sim-dd-name">' + r.name + '</span>';
+    html += '<span class="sim-dd-tier sim-dd-tier-' + r.tierNum + '">T' + r.tierNum + '</span>';
+    html += '<span class="sim-dd-turret">' + r.turretName + '</span>';
+    html += '</div>';
+  });
+  drop.innerHTML = html;
+  drop.classList.add('open');
+}
+
+// Close dropdowns on outside click
+document.addEventListener('click', function(e) {
+  if (!e.target.classList.contains('sim-card-input')) {
+    document.querySelectorAll('.sim-dropdown').forEach(d => d.classList.remove('open'));
+  }
+});
+
+document.getElementById('searchInput').addEventListener('input', (e) => {
+  searchQuery = e.target.value;
+  if (activeTurret !== null) { closeTurret(); }
+  renderGrid();
+});
+
+// ============================================================
+// SWIPE GESTURES — horizontal swipe between tabs
+// ============================================================
+(function() {
+  var touchStartX = 0, touchStartY = 0, touchStartTime = 0;
+  var SWIPE_THRESHOLD = 50;
+  var SWIPE_MAX_VERTICAL = 80;
+  var SWIPE_MAX_TIME = 400;
+
+  document.addEventListener('touchstart', function(e) {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    touchStartTime = Date.now();
+  }, { passive: true });
+
+  document.addEventListener('touchend', function(e) {
+    var dx = e.changedTouches[0].clientX - touchStartX;
+    var dy = e.changedTouches[0].clientY - touchStartY;
+    var dt = Date.now() - touchStartTime;
+
+    if (Math.abs(dx) < SWIPE_THRESHOLD) return;
+    if (Math.abs(dy) > SWIPE_MAX_VERTICAL) return;
+    if (dt > SWIPE_MAX_TIME) return;
+
+    // Don't swipe inside horizontally scrollable elements
+    var el = e.target;
+    while (el && el !== document.body) {
+      var style = window.getComputedStyle(el);
+      if (style.overflowX === 'auto' || style.overflowX === 'scroll') return;
+      el = el.parentElement;
+    }
+
+    var tabs = TAB_ORDER;
+    var cur = tabs.indexOf(currentMainTab);
+
+    if (dx < 0 && cur < tabs.length - 1) {
+      switchMainTab(tabs[cur + 1]);
+    } else if (dx > 0 && cur > 0) {
+      switchMainTab(tabs[cur - 1]);
+    }
+  }, { passive: true });
+})();
+
+// ============================================================
+// PWA INSTALL PROMPT
+// ============================================================
+var deferredInstallPrompt = null;
+
+window.addEventListener('beforeinstallprompt', function(e) {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  if (!window.matchMedia('(display-mode: standalone)').matches) {
+    setTimeout(function() {
+      var banner = document.getElementById('installBanner');
+      if (banner && !localStorage.getItem('installDismissed')) {
+        banner.classList.add('visible');
+      }
+    }, 3000);
+  }
+});
+
+var installBtnEl = document.getElementById('installBtn');
+if (installBtnEl) {
+  installBtnEl.addEventListener('click', function() {
+    if (!deferredInstallPrompt) return;
+    deferredInstallPrompt.prompt();
+    deferredInstallPrompt.userChoice.then(function() {
+      deferredInstallPrompt = null;
+      dismissInstallBanner();
+    });
+  });
+}
+
+function dismissInstallBanner() {
+  var banner = document.getElementById('installBanner');
+  if (banner) banner.classList.remove('visible');
+  try { localStorage.setItem('installDismissed', '1'); } catch(e) {}
+}
+
+// iOS: show install instructions
+if (/iphone|ipad|ipod/i.test(navigator.userAgent) && !window.navigator.standalone) {
+  setTimeout(function() {
+    try {
+      if (!localStorage.getItem('installDismissed')) {
+        var banner = document.getElementById('installBanner');
+        if (banner) {
+          var title = banner.querySelector('.install-banner-title');
+          var sub = banner.querySelector('.install-banner-sub');
+          var btn = document.getElementById('installBtn');
+          if (title) title.textContent = 'Install on iPhone';
+          if (sub) sub.textContent = 'Tap Share \u2192 Add to Home Screen';
+          if (btn) btn.style.display = 'none';
+          banner.classList.add('visible');
+        }
+      }
+    } catch(e) {}
+  }, 4000);
+}
+
+// ============================================================
+// SERVICE WORKER REGISTRATION
+// ============================================================
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('./sw.js', { scope: './' })
+      .then(function(reg) { console.log('SW registered:', reg.scope); })
+      .catch(function(err) { console.log('SW failed:', err); });
+  });
+}
+
+// === INIT: render everything on page load ===
+bpLoadSavedDefaults();
+renderGrid();
+loadBuildFromHash();
+switchMainTab('cardref', true);
+</script>
+
+<!-- iOS-style bottom tab bar -->
+<div class="tab-bar-nav" id="tabBarNav">
+  <div class="tab-bar-nav-inner">
+    <button class="nav-tab-btn active" id="navCardRef" onclick="switchMainTab('cardref')">
+      <span class="nav-tab-icon">📖</span>
+      <span class="nav-tab-label">Cards</span>
+    </button>
+    <button class="nav-tab-btn" id="navBuildPlan" onclick="switchMainTab('buildplan')">
+      <span class="nav-tab-icon">⚔️</span>
+      <span class="nav-tab-label">Build</span>
+    </button>
+    <button class="nav-tab-btn" id="navComboFind" onclick="switchMainTab('combofind')">
+      <span class="nav-tab-icon">🔥</span>
+      <span class="nav-tab-label">Combos</span>
+    </button>
+  </div>
+</div>
+
+<!-- Install prompt banner -->
+<div class="install-banner" id="installBanner">
+  <div class="install-banner-icon">🎯</div>
+  <div class="install-banner-text">
+    <div class="install-banner-title">Add to Home Screen</div>
+    <div class="install-banner-sub">Install for offline access & full app experience</div>
+  </div>
+  <button class="install-banner-btn" id="installBtn">Install</button>
+  <button class="install-banner-close" onclick="dismissInstallBanner()">✕</button>
+</div>
+
+</body>
+</html>
